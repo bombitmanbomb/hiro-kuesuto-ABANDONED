@@ -12,7 +12,9 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "express": "^4.16.3",
+    "jquery": "^3.3.1",
     "lowdb": "^1.0.0",
+    "roguelike": "^0.5.0",
     "sqlite3": "^4.0.0"
   },
   "engines": {
