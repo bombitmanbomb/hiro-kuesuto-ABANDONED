@@ -1,4 +1,4 @@
-/*
+ /*
   Game Bot thing by bomb_and_kou#0669 and PlayStateWolf#3118
 */
 // init project
@@ -9,29 +9,124 @@ var config = {
   }
 const debug = true //DEBUG
 var bodyParser = require('body-parser');
-
+///console.log(process.env.PORT)
 // start of data config
 var fs = require('fs');
 var dbFile = './.data/sqlite.db';
 var exists = fs.existsSync(dbFile);
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(dbFile, (err) => {if (err) {console.error(err.message)};console.log('Connected to Dataset.');});
+var db = new sqlite3.Database(dbFile, (err) => {if (err) {console.error(err.message)};log(true,'Connected to Dataset.');});
 const low = require("lowdb");
 const FileSync = require('lowdb/adapters/FileSync')
 var configFile = low(new FileSync("./.data/config.json"));
 configFile.defaults({'config':config}).write();
+var leaderboardDB = low(new FileSync("./datasets/leaderboards.json"));
+leaderboardDB.defaults({'leaderboard':[]}).write();
 //end of data config
-
+fs.writeFileSync('./err/crashlog.txt',"[MASTER LOG]\n");
 const {Client} = require("discord.js");
 const client = new Client({disableEveryone: true});
 client.login(process.env.SECRET);
 
 const game = require("./game.js"); //Game Module
 
+
+//Crash Handling
+process.on('uncaughtException', function(err) {
+  crash(err,true)
+  console.log('Caught exception: ' + err);
+});
+//crash uploading
+function crash(err,unhandled){
+  console.log("Caught Exception: "+err)
+  fs.appendFileSync('./err/crashlog.txt',err.toString()+"\n");
+  if (unhandled) {
+  client.channels.get("508579364212834321").send("UNHANDLED CRASH",{
+  files: [{
+    attachment: './err/crashlog.txt',
+    name: 'crashlog.txt'
+  }]})
+  } else {
+  client.channels.get("508579364212834321").send({
+  files: [{
+    attachment: './err/crashlog.txt',
+    name: 'crashlog.txt'
+  }]})}
+}
+//log
+function log(logToConsole,text, data){
+  if (logToConsole){console.log(text);}
+  text = '['+new Date()+'] '+"[SERVER] "+text
+  if (data){text +="=> "+JSON.stringify(data)}
+  fs.appendFileSync('./err/crashlog.txt',text+"\n");
+}
+
+//Respond to Pings
+const express = require('express');
+const app = express();
+const path = require("path")
+app.get("/ping", (request, response) => { 
+  response.sendStatus(200); }); 
+app.get("/", (request, response) => { 
+  response.sendFile(path.join(__dirname+'/IO/index.html')); 
+});
+app.get("/uptime", (request, response) => { 
+  response.sendFile(path.join(__dirname+'/IO/uptime.html')); 
+});
+app.get("/help", (request, response) => { 
+  response.sendFile(path.join(__dirname+'/IO/help.html')); 
+});
+//Site Leaderboard
+app.get("/leaderboard", (request, res) => { 
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write("<head><title>Leaderboard</title></head>");
+  res.write("<body>");
+  res.write("<h1>Leaderboards</h1>");
+  res.write("=====================");
+  leaderboardDB.read();
+  let leaderboard = leaderboardDB.get('leaderboard').sortBy('Player.score').value();
+  leaderboard.reverse();
+  if (leaderboard.length===0) {res.write("<p>No Scores Saved.</p>");}
+  for (let i = 0;i<leaderboard.length;i++){
+    res.write("<p>#"+(i+1)+" "+leaderboard[i].Player.name+" | "+leaderboard[i].Player.score+"</p>");
+  }
+  res.write("<!--Sorry Everything is done server side :)-->");
+  res.end("</body>");
+});
+
+app.get("/log", (request, res) => { 
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write("<head><title>Running Log</title></head>");
+  res.write("<body>");
+  let dat = "Offline"
+  fs.readFile('./err/crashlog.txt', 'utf8', function (err,data) {
+    data = data.replace(/(?:\r\n|\r|\n)/g, '<br>');
+  if (err) {
+     res.end("</body>");
+    return console.log(err);
+  }
+    console.log(data)
+    res.write(data);
+    res.end("</body>");
+  });
+ 
+});
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname+'/IO/error.html'));
+});
+
+
+app.listen(process.env.PORT); 
+
+
+
+
+
 client.on("error", (err)=>{console.log(err)});//Error Handling
 //initilization
 client.on("ready", ()=>{
-  console.log("Bot Loaded.");
+  log(true,"Bot Loaded.");
   loadBotSettings();
   game.init(client); //Initialize Game Engine
 });
@@ -42,13 +137,13 @@ client.on("message",(msg)=>{
   try {
     var message = msg;
     message.isDM = (message.channel.type==="dm")
-    console.log(message.author.username+"> "+message.content);
+    log(true,"[CHAT] "+message.author.username+"> "+message.content);
     if (message.content.startsWith(config.prefix)){runCommand(message);return;} //RUN COMMAND AND STOP PROGRAM
     let games = game.getRunningGames();
     //is the user in a channel with a running game and is the user part of the game
     //Hmm
     
-  } catch(err){console.log(err)};
+  } catch(err){crash(err)};
 });
 
 
@@ -66,7 +161,7 @@ function loadBotSettings(){
 */
 function sendHelp(message){
 client.users.get(message.author.id)
-  .send(makeEmbed("Help Info","Name to be decided later.\nSome misc info\n__**COMMANDS**__:\nhelp\nplay"));
+  .send(makeEmbed("Help Info","Work in Progress. Info Available on https://sky-tower.glitch.me/"));
 }
 /* runCommand 
   run a bot command. autodelete message if text channel. returns undefined.
@@ -96,11 +191,26 @@ function runCommand(message){
     case "end":
       //kill session early - process end game
       break;
+    case "site":
+      //send site info
+      break;
+    case "leaderboard":
+      //display leaderboard
+      let response = ""
+      leaderboardDB.read();
+      let leaderboard = leaderboardDB.get('leaderboard').sortBy('Player.score').take(10).value();
+      leaderboard.reverse();
+      if (leaderboard.length===0) {response = "No Scores Saved.";}
+      for (let i = 0;i<leaderboard.length;i++){
+        response += "__#"+(i+1)+"__ | **"+leaderboard[i].Player.name+"** | "+leaderboard[i].Player.score+"\n";
+      }
+      message.channel.send(makeEmbed("Leaderboard",response))
+      break;
     default:
       message.reply("Invalid Command: "+command).then((m)=>{if (!message.isDM){m.delete(6000)}});
    }
     if (!message.isDM){message.delete()}
-  } catch(err) {console.log(err)}
+  } catch(err) {crash(err)}
 } 
 /* isDev -HardCoded
   is message.author a developer. returns a boolean

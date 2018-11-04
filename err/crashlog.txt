@@ -1,0 +1,35 @@
+[MASTER LOG]
+[Sun Nov 04 2018 15:53:03 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
+[Sun Nov 04 2018 15:53:03 GMT+0000 (UTC)] [SERVER] Bot Loaded.
+[Sun Nov 04 2018 15:53:03 GMT+0000 (UTC)] [SERVER] Engine Loaded.
+[Sun Nov 04 2018 15:53:03 GMT+0000 (UTC)] [SERVER] Instances Loaded.
+[Sun Nov 04 2018 19:45:02 GMT+0000 (UTC)] [SERVER] [CHAT] eldrad but Алиса Кожикина> >help
+[Sun Nov 04 2018 19:45:03 GMT+0000 (UTC)] [SERVER] [CHAT] The Tower Adventure> 
+[Sun Nov 04 2018 20:45:51 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> Mornin
+[Sun Nov 04 2018 21:24:50 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> mornin
+[Sun Nov 04 2018 21:28:14 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> How are you doing?
+[Sun Nov 04 2018 21:28:37 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> Tired
+[Sun Nov 04 2018 21:28:43 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> Same
+[Sun Nov 04 2018 21:29:46 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> Got logging working so
+[Sun Nov 04 2018 21:30:00 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> It resets when the bot resets
+[Sun Nov 04 2018 21:30:22 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> And you can easily bring up the whole console with eval
+[Sun Nov 04 2018 21:30:46 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> >eval CRASH
+ReferenceError: CRASH is not defined
+[Sun Nov 04 2018 21:30:46 GMT+0000 (UTC)] [SERVER] [CHAT] The Tower Adventure> 
+[Sun Nov 04 2018 21:31:25 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> Will likely only log chat
+[Sun Nov 04 2018 21:31:25 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> And it resets the bot?
+[Sun Nov 04 2018 21:31:29 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> From the channels
+[Sun Nov 04 2018 21:31:42 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> Or commands
+[Sun Nov 04 2018 21:31:58 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> >halp
+[Sun Nov 04 2018 21:31:58 GMT+0000 (UTC)] [SERVER] [CHAT] The Tower Adventure> <@264960505465143297>, Invalid Command: halp
+[Sun Nov 04 2018 21:32:12 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> >help
+[Sun Nov 04 2018 21:32:12 GMT+0000 (UTC)] [SERVER] [CHAT] The Tower Adventure> 
+[Sun Nov 04 2018 21:32:27 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> >help
+[Sun Nov 04 2018 21:32:27 GMT+0000 (UTC)] [SERVER] [CHAT] The Tower Adventure> 
+[Sun Nov 04 2018 21:32:59 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> Takes a sexond to start back up
+[Sun Nov 04 2018 21:33:19 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> Eh, I would prefer it if there was an actual help command instead of redirecting to the website
+[Sun Nov 04 2018 21:33:31 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> Temporary
+[Sun Nov 04 2018 21:34:16 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> >leaderboard
+[Sun Nov 04 2018 21:34:16 GMT+0000 (UTC)] [SERVER] [CHAT] The Tower Adventure> 
+[Sun Nov 04 2018 21:34:44 GMT+0000 (UTC)] [SERVER] [CHAT] PlayStateWolf> I suppose those test subjects were removed
+[Sun Nov 04 2018 22:02:54 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> datasets/leaderboards.json
