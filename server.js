@@ -176,7 +176,10 @@
    @param {Object} message #client.on message object
  */
  function sendHelp(message) {
-   client.users.get(message.author.id).send(makeEmbed("Help Info", "Work in Progress. Info Available on https://sky-tower.glitch.me/"));
+   let helpMessage = "";
+   helpMessage += "Work in Progress. Info Available on https://sky-tower.glitch.me/\n";
+   helpMessage += "Please report All Bugs at https://github.com/bombitmanbomb/hiro-kuesuto/issues\n"
+   client.users.get(message.author.id).send(makeEmbed("Help Info", helpMessage));
  }
  /* runCommand 
    run a bot command. autodelete message if text channel. returns undefined.
