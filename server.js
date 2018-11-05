@@ -107,8 +107,8 @@
      'Content-Type': 'text/html'
    });
    res.write("<head><title>Leaderboard</title></head>");
-   res.write('<body>');
-   res.write("<h1>Leaderboards/h1>");
+   res.write('<body><code>');
+   res.write("<h1>Leaderboards</h1>");
    res.write("=====================");
    leaderboardDB.read();
    let leaderboard = leaderboardDB.get('leaderboard').sortBy('Player.score').value();
@@ -120,7 +120,7 @@
      res.write("<p>#" + (i + 1) + " " + leaderboard[i].Player.name + " | " + leaderboard[i].Player.score + "</p>");
    }
    res.write("<!--Sorry Everything is done server side :)-->");
-   res.end("</body>");
+   res.end("</code></body>");
  });
  app.get("/log", (request, res) => {
    res.writeHead(200, {
