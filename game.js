@@ -17,6 +17,7 @@ class Log {
     if (data) {
       text += "=> " + JSON.stringify(data)
     }
+    if (logToConsole===undefined){return}
     fs.appendFileSync('./err/crashlog.txt', text + "\n");
   }
 }
@@ -101,12 +102,14 @@ class logData {
   writeLine(file, module, message, data, logToConsole) {
     let fileinfo = '';
     fileinfo += '[' + new Date() + '] ';
+    fileinfo += '[' + intToRGB(hashCode(file)) + '] ';
     fileinfo += '[' + module + '] ';
     fileinfo += message;
     if (data) {
       fileinfo += "=> " + JSON.stringify(data)
     }
-    fs.appendFileSync('./err/crashlog.txt', fileinfo + ":" + file + "\n");
+    if (logToConsole===undefined){return console.log(fileinfo)}
+    fs.appendFileSync('./err/crashlog.txt', fileinfo + "\n");
     fs.appendFile('./logs/log' + file + '.txt', fileinfo + "\n", function(err) {
       if (err) throw err;
       if (logToConsole) {
@@ -140,7 +143,7 @@ class Game {
       this.sessionID += "-" + message.author.id;
       this.log = new logData("Game", this.sessionID);
       this.log.init()
-      this.log.write(true, "Generating Instance...")
+      this.log.write(true, "Generating Instance...",{'ID':this.sessionID})
       this.World = new World(undefined, this.sessionID);
       this.Player = new Player(this.World.seedData(), message, undefined, this.sessionID);
     } else {
@@ -155,9 +158,12 @@ class Game {
       this.World = new World(data.World, this.sessionID);
       this.Player = new Player(this.World.seedData(), message, data.Player, this.sessionID);
     }
-    this.log.write(true, "Loading Complete.");
+    this.log.write(true, "Generation Complete.");
   }
-  interperator(message) {}
+  parseIncoming(message) {
+    this.log.write(true, "[Interperator] "+message.content)
+    //do stuff
+  }
   save() {
     this.log.write(true, "Saving Instance.")
     instancedb.read();
@@ -342,7 +348,7 @@ function getRunningGames() {
 function getSession(sessionID) {
   var sessions = getRunningGames()
   var session = sessions.find(function(x) {
-    if (x.id === sessionID) {
+    if (x.sessionID === sessionID) {
       return x
     };
   });
@@ -365,7 +371,9 @@ function randomValueHex(len) {
     .slice(0, len) // return required number of characters
 }
 
-function interperator(client, message) {}
+function interperator(client, message) {
+instance[message.sessionID].Game.parseIncoming(message)
+}
 
 function makeEmbed(text, desc, misc) {
   var embed = {
@@ -380,6 +388,21 @@ function makeEmbed(text, desc, misc) {
   }
   return embed
 }
+
+function hashCode(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+}
+function intToRGB(i) {
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
+}
 module.exports.eventListener = eventListener;
 module.exports.init = init;
 module.exports.getRunningGames = getRunningGames;
@@ -391,6 +414,7 @@ module.exports.Game = Game // testing
 module.exports.instance = instance // testing
 module.exports.mapAllSavedInstances = mapAllSavedInstances;
 module.exports.randomValueHex = randomValueHex;
+module.exports.getSession = getSession;
 /*
     generate a random line x rooms. (empty, just the first 4 flags) 
     store every Off room path in a list. Iterate through the list and generate the side halls and remove that room from the list until list is empty

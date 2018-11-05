@@ -4,7 +4,7 @@
  // init project
  var config = {
    "prefix": ">",
-   "channels": [],
+   "entry": "507401000903114763",
    "roles": []
  }
  const debug = true //DEBUG
@@ -75,6 +75,7 @@
    if (data) {
      text += "=> " + JSON.stringify(data)
    }
+   if (logToConsole===undefined){return}
    fs.appendFileSync('./err/crashlog.txt', text + "\n");
  }
  //Respond to Pings
@@ -99,8 +100,8 @@
      'Content-Type': 'text/html'
    });
    res.write("<head><title>Leaderboard</title></head>");
-   res.write("<body>");
-   res.write("<h1>Leaderboards</h1>");
+   res.write('<body>');
+   res.write("<h1>Leaderboards/h1>");
    res.write("=====================");
    leaderboardDB.read();
    let leaderboard = leaderboardDB.get('leaderboard').sortBy('Player.score').value();
@@ -119,7 +120,7 @@
      'Content-Type': 'text/html'
    });
    res.write("<head><title>Running Log</title></head>");
-   res.write("<body>");
+   res.write('<body text="#33FF33" bgcolor="#101010"><code>');
    let dat = "Offline"
    fs.readFile('./err/crashlog.txt', 'utf8', function(err, data) {
      data = data.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -127,9 +128,8 @@
        res.end("</body>");
        return console.log(err);
      }
-     console.log(data)
      res.write(data);
-     res.end("</body>");
+     res.end("</code></body>");
    });
  });
  app.get('*', function(req, res) {
@@ -151,15 +151,23 @@
  client.on("message", (msg) => {
    try {
      var message = msg;
+     if(message.author.bot){return}
      message.isDM = (message.channel.type === "dm")
-     log(true, "[CHAT] " + message.author.username + "> " + message.content);
      if (message.content.startsWith(config.prefix)) {
+       log(true, "[CHAT] " + message.author.username + "> " + message.content);
        runCommand(message);
        return;
      } //RUN COMMAND AND STOP PROGRAM
-     let games = game.getRunningGames();
-     //is the user in a channel with a running game and is the user part of the game
-     //Hmm
+     
+     if (message.isDM){message.sessionID = "private-"+message.author.id} else {message.sessionID = message.channel.id+"-"+message.author.id}
+     let myGame = game.getSession(message.sessionID)
+     if (myGame===undefined) {message.validSession=false} else {message.validSession=true}
+     if (!message.isDM){
+       if (message.channel.id!==config.entry&&message.validSession!==true){return}
+     }
+     //if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
+     
+     game.interperator(client,message)
    } catch (err) {
      crash(err)
    };
@@ -176,7 +184,10 @@
    @param {Object} message #client.on message object
  */
  function sendHelp(message) {
-   client.users.get(message.author.id).send(makeEmbed("Help Info", "Work in Progress. Info Available on https://sky-tower.glitch.me/"));
+   let helpMessage = "";
+   helpMessage += "Work in Progress. Info Available on https://sky-tower.glitch.me/\n";
+   helpMessage += "Please report All Bugs at https://github.com/bombitmanbomb/hiro-kuesuto/issues\n"
+   client.users.get(message.author.id).send(makeEmbed("Help Info", helpMessage));
  }
  /* runCommand 
    run a bot command. autodelete message if text channel. returns undefined.
