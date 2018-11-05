@@ -46,19 +46,19 @@
    crash(err, true)
    console.log('Caught exception: ' + err);
  });
- //crash uploading
+ //A Crash has Occured. Upload the Main Log
  function crash(err, unhandled) {
    console.log("Caught Exception: " + err)
    fs.appendFileSync('./err/crashlog.txt', err.toString() + "\n");
    if (unhandled) {
-     client.channels.get("508579364212834321").send("UNHANDLED CRASH", {
+     client.channels.get("508579364212834321").send("<@&507408030342578176>```FATAL ERROR```", {
        files: [{
          attachment: './err/crashlog.txt',
          name: 'crashlog.txt'
        }]
      })
    } else {
-     client.channels.get("508579364212834321").send({
+     client.channels.get("508579364212834321").send("<@&507408030342578176>", {
        files: [{
          attachment: './err/crashlog.txt',
          name: 'crashlog.txt'
@@ -66,7 +66,12 @@
      })
    }
  }
- //log
+ /*log to console
+ @param {*} logToConsole true display on console and write to file, false write to file and do not display in console, undefined write to console but do not write to file. 
+ @param {String} text Text to display
+ @param {*} data Any data to be appended
+ Logs info. Use instead of console.log
+ */
  function log(logToConsole, text, data) {
    if (logToConsole) {
      console.log(text);
@@ -75,7 +80,9 @@
    if (data) {
      text += "=> " + JSON.stringify(data)
    }
-   if (logToConsole===undefined){return}
+   if (logToConsole === undefined) {
+     return
+   }
    fs.appendFileSync('./err/crashlog.txt', text + "\n");
  }
  //Respond to Pings
@@ -151,23 +158,33 @@
  client.on("message", (msg) => {
    try {
      var message = msg;
-     if(message.author.bot){return}
+     if (message.author.bot) {
+       return
+     }
      message.isDM = (message.channel.type === "dm")
      if (message.content.startsWith(config.prefix)) {
        log(true, "[CHAT] " + message.author.username + "> " + message.content);
        runCommand(message);
        return;
      } //RUN COMMAND AND STOP PROGRAM
-     
-     if (message.isDM){message.sessionID = "private-"+message.author.id} else {message.sessionID = message.channel.id+"-"+message.author.id}
+     if (message.isDM) {
+       message.sessionID = "private-" + message.author.id
+     } else {
+       message.sessionID = message.channel.id + "-" + message.author.id
+     }
      let myGame = game.getSession(message.sessionID)
-     if (myGame===undefined) {message.validSession=false} else {message.validSession=true}
-     if (!message.isDM){
-       if (message.channel.id!==config.entry&&message.validSession!==true){return}
+     if (myGame === undefined) {
+       message.validSession = false
+     } else {
+       message.validSession = true
+     }
+     if (!message.isDM) {
+       if (message.channel.id !== config.entry && message.validSession !== true) {
+         return
+       }
      }
      //if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
-     
-     game.interperator(client,message)
+     game.interperator(client, message)
    } catch (err) {
      crash(err)
    };
