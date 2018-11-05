@@ -160,7 +160,10 @@ class Game {
     }
     this.log.write(true, "Generation Complete.");
   }
-  interperator(message) {}
+  parseIncoming(message) {
+    this.log.write(true, "[Interperator] "+message.content)
+    //do stuff
+  }
   save() {
     this.log.write(true, "Saving Instance.")
     instancedb.read();
@@ -345,7 +348,7 @@ function getRunningGames() {
 function getSession(sessionID) {
   var sessions = getRunningGames()
   var session = sessions.find(function(x) {
-    if (x.id === sessionID) {
+    if (x.sessionID === sessionID) {
       return x
     };
   });
@@ -368,7 +371,9 @@ function randomValueHex(len) {
     .slice(0, len) // return required number of characters
 }
 
-function interperator(client, message) {}
+function interperator(client, message) {
+instance[message.sessionID].Game.parseIncoming(message)
+}
 
 function makeEmbed(text, desc, misc) {
   var embed = {
@@ -409,6 +414,7 @@ module.exports.Game = Game // testing
 module.exports.instance = instance // testing
 module.exports.mapAllSavedInstances = mapAllSavedInstances;
 module.exports.randomValueHex = randomValueHex;
+module.exports.getSession = getSession;
 /*
     generate a random line x rooms. (empty, just the first 4 flags) 
     store every Off room path in a list. Iterate through the list and generate the side halls and remove that room from the list until list is empty

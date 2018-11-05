@@ -4,7 +4,7 @@
  // init project
  var config = {
    "prefix": ">",
-   "channels": [],
+   "entry": "507401000903114763",
    "roles": []
  }
  const debug = true //DEBUG
@@ -151,15 +151,23 @@
  client.on("message", (msg) => {
    try {
      var message = msg;
+     if(message.author.bot){return}
      message.isDM = (message.channel.type === "dm")
-     log(true, "[CHAT] " + message.author.username + "> " + message.content);
      if (message.content.startsWith(config.prefix)) {
+       log(true, "[CHAT] " + message.author.username + "> " + message.content);
        runCommand(message);
        return;
      } //RUN COMMAND AND STOP PROGRAM
-     let games = game.getRunningGames();
-     //is the user in a channel with a running game and is the user part of the game
-     //Hmm
+     
+     if (message.isDM){message.sessionID = "private-"+message.author.id} else {message.sessionID = message.channel.id+"-"+message.author.id}
+     let myGame = game.getSession(message.sessionID)
+     if (myGame===undefined) {message.validSession=false} else {message.validSession=true}
+     if (!message.isDM){
+       if (message.channel.id!==config.entry&&message.validSession!==true){return}
+     }
+     //if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
+     
+     game.interperator(client,message)
    } catch (err) {
      crash(err)
    };
