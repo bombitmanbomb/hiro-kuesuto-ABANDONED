@@ -129,7 +129,7 @@ class logData {
 function updateStatus() {
   client.user.setPresence({
     game: {
-      name: ": " + instance.length + " | >help"
+      name: ": " + Object.keys(instance).length+ " | >help"
     },
     status: 'active'
   })
