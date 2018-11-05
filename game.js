@@ -8,6 +8,7 @@ var fs = require('fs');
 var leaderboard
 var leaderboardDB
 const LevelGridKeys = require('roguelike/level/gridKeys'); //https://github.com/tlhunter/node-roguelike#level-gridKeys
+//SERVER log class
 class Log {
   write(logToConsole, text, data) {
     if (logToConsole) {
@@ -17,13 +18,16 @@ class Log {
     if (data) {
       text += "=> " + JSON.stringify(data)
     }
-    if (logToConsole===undefined){return}
+    if (logToConsole === undefined) {
+      return
+    }
     fs.appendFileSync('./err/crashlog.txt', text + "\n");
   }
 }
-var log = new Log()
+var log = new Log() // init global logging
 const eventListener = async (client, event, guild = null, message = null, extra = null) => {}
 /*GAME CODE*/
+//INITILIZATION
 const init = async (Client) => {
   client = Client;
   var config = {
@@ -49,7 +53,6 @@ const init = async (Client) => {
   leaderboardDB.defaults({
     'leaderboard': []
   }).write();
-  updateStatus()
   mapAllSavedInstances()
   leaderboard = new Leaderboard(client)
   updateLeaderboard()
@@ -61,6 +64,7 @@ class Leaderboard {
     this.channelID = "507409813945188372"
     this.messageID = "508091427402809384"
   }
+  //Leaderboard display on leaderboard channel. Displays top 10
   update() {
     this.client.channels.get(this.channelID).fetchMessage(this.messageID).then(message => {
       let embed = "========================\n"
@@ -88,6 +92,7 @@ class Leaderboard {
 function updateLeaderboard() {
   leaderboard.update()
 }
+//Subclass Logging. logs to File for end of session
 class logData {
   constructor(parent, sessionID) {
     this.module = parent;
@@ -108,7 +113,9 @@ class logData {
     if (data) {
       fileinfo += "=> " + JSON.stringify(data)
     }
-    if (logToConsole===undefined){return console.log(fileinfo)}
+    if (logToConsole === undefined) {
+      return console.log(fileinfo)
+    }
     fs.appendFileSync('./err/crashlog.txt', fileinfo + "\n");
     fs.appendFile('./logs/log' + file + '.txt', fileinfo + "\n", function(err) {
       if (err) throw err;
@@ -118,15 +125,16 @@ class logData {
     });
   }
 }
-
+//update # of users playing
 function updateStatus() {
   client.user.setPresence({
     game: {
-      name: ": " + instancedb.get("sessions").value().length + " | >help"
+      name: ": " + Object.keys(instance).length+ " | >help"
     },
     status: 'active'
   })
 }
+//class Game. Main Class.
 class Game {
   constructor(message, data, sessionID) {
     if (!data) {
@@ -143,7 +151,9 @@ class Game {
       this.sessionID += "-" + message.author.id;
       this.log = new logData("Game", this.sessionID);
       this.log.init()
-      this.log.write(true, "Generating Instance...",{'ID':this.sessionID})
+      this.log.write(true, "Generating Instance...", {
+        'ID': this.sessionID
+      })
       this.World = new World(undefined, this.sessionID);
       this.Player = new Player(this.World.seedData(), message, undefined, this.sessionID);
     } else {
@@ -161,7 +171,7 @@ class Game {
     this.log.write(true, "Generation Complete.");
   }
   parseIncoming(message) {
-    this.log.write(true, "[Interperator] "+message.content)
+    this.log.write(true, "[Interperator] " + message.content)
     //do stuff
   }
   save() {
@@ -181,9 +191,7 @@ class Game {
 } //EOF class Game
 /* class World
   //constructor()
-    {obj} data #pass stored instance data to create an instance w/ old data. else generate new World
-    
-    
+    {obj} data #pass stored instance data to create an instance w/ old data. else generate new World 
 */
 class World {
   constructor(data, sessionID) {
@@ -251,6 +259,7 @@ class WorldGen {
     this.log.write(true, "Starting Room Generated", this.mapData);
     return this.mapData;
   }
+  //Generate level with properties based on seed
   createLevel() {
     this.temp.levelDat = {}
     this.temp.levelDat.tDat = this.seedData()
@@ -306,6 +315,7 @@ class Player {
     }
     this.log.write(true, "Player Loaded.", data)
   }
+  //Movement
   moveNorth() {}
   moveSouth() {}
   moveEast() {}
@@ -313,6 +323,7 @@ class Player {
   pickupItem() {}
   //EOF player
 }
+//room class
 class Room {
   constructor(roomData) {
     this.posX = roomData[0];
@@ -321,7 +332,7 @@ class Room {
     this.args = roomData[3];
   }
 }
-
+//Decode integer flag into an array of booleans
 function decodeFlag(flag) {
   let d = [flag];
   let i = 0;
@@ -362,19 +373,29 @@ function mapAllSavedInstances() {
     instance[tInstances[i].sessionID] = {}
     instance[tInstances[i].sessionID].Game = new Game(undefined, tInstances[i])
   }
+  updateStatus() // update # of sessions displayed on bot description
 }
-
+//End the Session Forcefully
 function endGame(sessionID) {}
-
+//create a random seed with length len
 function randomValueHex(len) {
   return crypto.randomBytes(Math.ceil(len / 2)).toString('hex') // convert to hexadecimal format
     .slice(0, len) // return required number of characters
 }
-
+/* interperator
+  @param {Object} client Discord Client object
+  @param {Object} message Discord Message Object OR Spoofed Web Object
+  runs method through game.
+*/
 function interperator(client, message) {
-instance[message.sessionID].Game.parseIncoming(message)
+  instance[message.sessionID].Game.parseIncoming(message)
 }
-
+/* makeEmbed
+  @param {String} text Embed Title
+  @param {String} desc Embed Description
+  @param {Object} misc Embed Fields
+  Returns embed object. Can be directly plugged into .send()
+*/
 function makeEmbed(text, desc, misc) {
   var embed = {
     embed: {
@@ -388,20 +409,18 @@ function makeEmbed(text, desc, misc) {
   }
   return embed
 }
-
+//simple hash
 function hashCode(str) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
 }
+//turn Integer to RGB Hex string
 function intToRGB(i) {
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-
-    return "00000".substring(0, 6 - c.length) + c;
+  var c = (i & 0x00FFFFFF).toString(16).toUpperCase();
+  return "00000".substring(0, 6 - c.length) + c;
 }
 module.exports.eventListener = eventListener;
 module.exports.init = init;
@@ -415,52 +434,3 @@ module.exports.instance = instance // testing
 module.exports.mapAllSavedInstances = mapAllSavedInstances;
 module.exports.randomValueHex = randomValueHex;
 module.exports.getSession = getSession;
-/*
-    generate a random line x rooms. (empty, just the first 4 flags) 
-    store every Off room path in a list. Iterate through the list and generate the side halls and remove that room from the list until list is empty
-    new rooms can append to the list that they need generation.
-    
-    could look like this one sec
-    
-    -----------------------------------
-    -----------------------------------
-    -----------║----║-----------║------
-    -----------╚══╦═╚╗--╔════╦═╦╩═╗----
-    --------------║--╠══╝----║-║--║----
-    --------------╚══╣-------╠═╩══-----
-    -----------------╠═╗-----║---------
-    -----------------X-║-----╚══┉------
-    -------------------╚╗--------------
-    --------------------║--------------
-    --------------------║--------------
-    -----------------------------------
-    -----------------------------------
-    -----------------------------------
-    -----------------------------------
-    
-    [[0,2,[0,1]],[T]]
-(0 being north doorway)
-    1 sec
-    
-    Okay the pattern is: Generate path to exit then create other dead end paths and then create side hallways?
-    it will gen the rooms with 1-4 doors
-    1 door is dead end
-    2 is hall/turn
-    3 is branch
-    4 is intersection
-    
-    understandable
-    
-    above is how i want the interperator to display it ^
-    we do have symbols like 
-    ⛔
-    ☐
-    ☑
-    ☒
-    
-    Yeah we should make a map and see how to generate --Yes
-    
-    trying to visually show how the gen works
-    
-    Yeah
-  */

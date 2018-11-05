@@ -15,7 +15,10 @@
     "jquery": "^3.3.1",
     "lowdb": "^1.0.0",
     "roguelike": "^0.5.0",
-    "sqlite3": "^4.0.0"
+    "socket.io": "^2.1.1",
+    "sqlite3": "^4.0.0",
+    "websocket": "^1.0.28",
+    "xterm": "^3.8.0"
   },
   "engines": {
     "node": "8.x"
