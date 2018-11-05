@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="animated fadeIn crt">
 <head>
 <title>Sky Tower Bot</title>
+  <link rel="stylesheet" href="animate.css">
+  <link rel="stylesheet" href="crt.css">
 </head>
-<body>
+<body text="#33FF33" bgcolor="#101010"><code>
   <section>
+    <a href="/">Back</a><br>
   <h1>
     Help
   </h1>
@@ -13,29 +16,64 @@
       <u>Commands</u>
     </h3>
     <h4>
-      some command
+      Play
     </h4>
     <p>
-      what it does
+      Start a new session
     </p>
     <h4>
-      some command
+      Save
     </h4>
     <p>
-      what it does
+      Save the Instance State for Reloading the save. Max 1 Save per user. Will be overwritten if the bot goes offline.
     </p>
     <h4>
-      some command
+      End
     </h4>
     <p>
-      what it does
+      Close your session.
     </p>
     <h4>
-      some command
+      Site
     </h4>
     <p>
-      what it does
+      Brings you Here
+    </p>
+    <h4>
+      Leaderboard
+    </h4>
+    <p>
+      Display the top 10 scores.
     </p>
   </section>
+  </code>
 </body>
+  <style>
+  /* unvisited link */
+
+a:link, a:visited {
+    color: #33FF33;
+  text-decoration: none;
+}
+  a:hover,a:hover:visited {
+    background-color: #33ff33;
+    color: #101010;
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+  
+  
+    section {
+        background: #101010;
+        color: #33FF33;
+        border-radius: 1em;
+        padding: 1em;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%) }
+</style>
 </html>
