@@ -1,9 +1,5 @@
 [MASTER LOG]
-[Mon Nov 05 2018 02:28:36 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
-[Mon Nov 05 2018 02:28:36 GMT+0000 (UTC)] [SERVER] Bot Loaded.
-[Mon Nov 05 2018 02:28:36 GMT+0000 (UTC)] [SERVER] Engine Loaded.
-[Mon Nov 05 2018 02:28:36 GMT+0000 (UTC)] [SERVER] Instances Loaded.
-[Mon Nov 05 2018 03:09:11 GMT+0000 (UTC)] [SERVER] [CHAT] GitHub> 
-[Mon Nov 05 2018 03:09:44 GMT+0000 (UTC)] [SERVER] [CHAT] bomb_and_kou> <@264960505465143297>  added <#507400965008261140>
-[Mon Nov 05 2018 03:10:48 GMT+0000 (UTC)] [SERVER] [CHAT] GitHub> 
-[Mon Nov 05 2018 03:10:48 GMT+0000 (UTC)] [SERVER] [CHAT] GitHub> 
+[Mon Nov 05 2018 04:07:58 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
+[Mon Nov 05 2018 04:07:59 GMT+0000 (UTC)] [SERVER] Bot Loaded.
+[Mon Nov 05 2018 04:07:59 GMT+0000 (UTC)] [SERVER] Engine Loaded.
+[Mon Nov 05 2018 04:07:59 GMT+0000 (UTC)] [SERVER] Instances Loaded.

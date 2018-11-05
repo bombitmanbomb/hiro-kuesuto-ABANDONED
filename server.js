@@ -75,6 +75,7 @@
    if (data) {
      text += "=> " + JSON.stringify(data)
    }
+   if (logToConsole===undefined){return}
    fs.appendFileSync('./err/crashlog.txt', text + "\n");
  }
  //Respond to Pings
@@ -99,8 +100,8 @@
      'Content-Type': 'text/html'
    });
    res.write("<head><title>Leaderboard</title></head>");
-   res.write("<body>");
-   res.write("<h1>Leaderboards</h1>");
+   res.write('<body>');
+   res.write("<h1>Leaderboards/h1>");
    res.write("=====================");
    leaderboardDB.read();
    let leaderboard = leaderboardDB.get('leaderboard').sortBy('Player.score').value();
@@ -119,7 +120,7 @@
      'Content-Type': 'text/html'
    });
    res.write("<head><title>Running Log</title></head>");
-   res.write("<body>");
+   res.write('<body text="#33FF33" bgcolor="#101010"><code>');
    let dat = "Offline"
    fs.readFile('./err/crashlog.txt', 'utf8', function(err, data) {
      data = data.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -127,9 +128,8 @@
        res.end("</body>");
        return console.log(err);
      }
-     console.log(data)
      res.write(data);
-     res.end("</body>");
+     res.end("</code></body>");
    });
  });
  app.get('*', function(req, res) {

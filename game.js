@@ -17,6 +17,7 @@ class Log {
     if (data) {
       text += "=> " + JSON.stringify(data)
     }
+    if (logToConsole===undefined){return}
     fs.appendFileSync('./err/crashlog.txt', text + "\n");
   }
 }
@@ -101,12 +102,14 @@ class logData {
   writeLine(file, module, message, data, logToConsole) {
     let fileinfo = '';
     fileinfo += '[' + new Date() + '] ';
+    fileinfo += '[' + intToRGB(hashCode(file)) + '] ';
     fileinfo += '[' + module + '] ';
     fileinfo += message;
     if (data) {
       fileinfo += "=> " + JSON.stringify(data)
     }
-    fs.appendFileSync('./err/crashlog.txt', fileinfo + ":" + file + "\n");
+    if (logToConsole===undefined){return console.log(fileinfo)}
+    fs.appendFileSync('./err/crashlog.txt', fileinfo + "\n");
     fs.appendFile('./logs/log' + file + '.txt', fileinfo + "\n", function(err) {
       if (err) throw err;
       if (logToConsole) {
@@ -140,7 +143,7 @@ class Game {
       this.sessionID += "-" + message.author.id;
       this.log = new logData("Game", this.sessionID);
       this.log.init()
-      this.log.write(true, "Generating Instance...")
+      this.log.write(true, "Generating Instance...",{'ID':this.sessionID})
       this.World = new World(undefined, this.sessionID);
       this.Player = new Player(this.World.seedData(), message, undefined, this.sessionID);
     } else {
@@ -155,7 +158,7 @@ class Game {
       this.World = new World(data.World, this.sessionID);
       this.Player = new Player(this.World.seedData(), message, data.Player, this.sessionID);
     }
-    this.log.write(true, "Loading Complete.");
+    this.log.write(true, "Generation Complete.");
   }
   interperator(message) {}
   save() {
@@ -379,6 +382,21 @@ function makeEmbed(text, desc, misc) {
     embed.embed[i] = misc[i]
   }
   return embed
+}
+
+function hashCode(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+}
+function intToRGB(i) {
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
 }
 module.exports.eventListener = eventListener;
 module.exports.init = init;
