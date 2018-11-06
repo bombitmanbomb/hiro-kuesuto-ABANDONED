@@ -12,38 +12,21 @@
     Help
   </h1>
     <!--Description-->
-    <h3>
-      <u>Commands</u>
-    </h3>
     <h4>
-      Play
+      Syntax
     </h4>
     <p>
-      Start a new session
+      The syntax for this is keywords left to right.<br/><u>{move/go/walk/travel}</u> <u>{north/south/east/west}</u>. <br/>
+      <u>Open</u> the <u>Chest</u><br/>Most commands can be called several different ways so get creative.<br/>
+      All actions cost Time Units. These will only really affect you during time sensative actions like combat. You can do things faster but they carry risks. <br/>Note you must also equip and stow items to use them. If you are holding a Large Weapon you must put it down or Stow it to open you backpack. 
+      
     </p>
     <h4>
-      Save
+      AutoFills
     </h4>
     <p>
-      Save the Instance State for Reloading the save. Max 1 Save per user. Will be overwritten if the bot goes offline.
-    </p>
-    <h4>
-      End
-    </h4>
-    <p>
-      Close your session.
-    </p>
-    <h4>
-      Site
-    </h4>
-    <p>
-      Brings you Here
-    </p>
-    <h4>
-      Leaderboard
-    </h4>
-    <p>
-      Display the top 10 scores.
+      This uses autofills and auto commands. These will display slightly darker and you can see what behavior it will have based on your cursor.<br/>
+      Clicking <button class="autoSend">This</button> will immidiately send the text clicked while clicking <button>This</button> will add it to your input box.
     </p>
   </section>
   </code>
@@ -56,6 +39,34 @@ a:link, a:visited {
   text-decoration: none;
 }
   a:hover,a:hover:visited {
+    background-color: #33ff33;
+    color: #101010;
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+    button:hover.autoSend{
+    cursor: alias;
+    outline-width: 0;
+    background-color: #33ff33;
+    color: #101010;
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+    button, button:focus{
+        padding: 0px 0px;
+         border:  0px solid white;
+    color: #33FF33;
+  text-decoration: none;
+        background-color:#101010;
+    outline-width: 0;
+}
+  button:hover { 
+    cursor: copy;
+    outline-width: 0;
     background-color: #33ff33;
     color: #101010;
     padding: 0px 0px;
@@ -82,4 +93,5 @@ a:link, a:visited {
         margin-right: -50%;
         transform: translate(-50%, -50%) }
 </style>
+  <script>document.body.style.zoom="150%"</script>
 </html>

@@ -1,17 +1,15 @@
 [MASTER LOG]
-[Tue Nov 06 2018 04:20:48 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
-[Tue Nov 06 2018 04:20:49 GMT+0000 (UTC)] [SERVER] Bot Loaded.
-[Tue Nov 06 2018 04:20:49 GMT+0000 (UTC)] [SERVER] Engine Loaded.
-[Tue Nov 06 2018 04:20:49 GMT+0000 (UTC)] [SERVER] Instances Loaded.
-[Tue Nov 06 2018 04:21:11 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] $connect
-[Tue Nov 06 2018 04:21:11 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] User Connection Established
-[Tue Nov 06 2018 04:21:37 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] examine room
-[Tue Nov 06 2018 04:21:37 GMT+0000 (UTC)] [SERVER] An error occured. (No Interpereter)
-[Tue Nov 06 2018 04:26:43 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] $connect
-[Tue Nov 06 2018 04:26:43 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] User Connection Established
-[Tue Nov 06 2018 04:26:53 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] Oh
-[Tue Nov 06 2018 04:26:53 GMT+0000 (UTC)] [SERVER] An error occured. (No Interpereter)
-[Tue Nov 06 2018 04:29:35 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] $connect
-[Tue Nov 06 2018 04:29:35 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] User Connection Established
-[Tue Nov 06 2018 04:29:38 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] sup
-[Tue Nov 06 2018 04:29:38 GMT+0000 (UTC)] [SERVER] An error occured. (No Interpereter)
+[Tue Nov 06 2018 11:24:55 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
+[Tue Nov 06 2018 11:24:56 GMT+0000 (UTC)] [SERVER] Bot Loaded.
+[Tue Nov 06 2018 11:24:56 GMT+0000 (UTC)] [SERVER] Engine Loaded.
+[Tue Nov 06 2018 11:24:56 GMT+0000 (UTC)] [SERVER] Instances Loaded.
+[Tue Nov 06 2018 11:25:35 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] $connect
+[Tue Nov 06 2018 11:25:35 GMT+0000 (UTC)] [SERVER] [WEB] [P_CON] [F1EDE1] User Connection Established
+[Tue Nov 06 2018 11:25:40 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] play
+[Tue Nov 06 2018 11:25:40 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] What is your name?
+[Tue Nov 06 2018 11:25:47 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] Ethan
+[Tue Nov 06 2018 11:25:47 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] You're name is Ethan. Confirm? (<button class='autoSend' onclick='IC(this,true);'>Yes</button>/<button class='autoSend' onclick='IC(this,true);'>No</button>)
+[Tue Nov 06 2018 11:25:50 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] yes
+[Tue Nov 06 2018 11:25:50 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] Welcome to TTA Ethan. This is not done yet and is just to test chat mechanics. You can now <button class='autoSend' onclick='IC(this,true);'>Enter the Dungeon</button>
+[Tue Nov 06 2018 11:25:54 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] Enter the Dungeon
+[Tue Nov 06 2018 11:25:54 GMT+0000 (UTC)] [SERVER] [WEB] [F1EDE1] You enter the Dungeon.<br/>You are standing in a Well Lit room. There is a <button onclick='IC(this,false);'>Chest</button> here.<br/>There are doors on the <button onclick='IC(this,false);'>North</button> and <button onclick='IC(this,false);'>West</button> sides of the room.

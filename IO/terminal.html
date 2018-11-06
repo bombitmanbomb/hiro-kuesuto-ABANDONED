@@ -1,102 +1,314 @@
 <!DOCTYPE html>
 <html lang="en" class="animated fadeIn crt" oncontextmenu="return false;">
-  <head>
-    
-  <link rel="stylesheet" href="animate.css">
-  <link rel="stylesheet" href="crt.css">
+
+<head>
+
+    <link rel="stylesheet" href="animate.css">
+    <link rel="stylesheet" href="crt.css">
     <meta charset="utf-8">
     <title>TTA</title>
     <style>
-    * { font-family:tahoma; font-size:12px; padding:0px;margin:0px;}
-    p { line-height:18px; word-wrap:normal;}
-    div { width:calc(100% - 100px);margin-left:auto; margin-right:auto; text:#33FF33;  word-wrap: normal;-webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none;}
-    #content { padding:10px; background:#101010; border-radius:0px;
-        overflow-y: auto; border:1px solid #33ff33;
-        margin-top:10px; height: 500px; width:calc(100% - 120px)}
-    #input { border-radius:2px; border:1px solid #33ff33;
-        margin-top:10px; padding:5px; width:calc(100% - 10px); background:#101010; color:#33FF33
-    }
-    #input:focus { border-radius:2px; border:1px solid #33ff33;border-color:#33ff33;
-        margin-top:10px; padding:5px; width:calc(100% - 10px); background:#101010; color:#33FF33;outline-width: 0;
-    }
-    #status { width:88px;display:block;float:left;margin-top:15px; }
-   a:link, a:visited {
-    color: #33FF33;
-  text-decoration: none;
-  }
-  a:hover,a:hover:visited {
-    background-color: #33ff33;
-    color: #101010;
-    padding: 0px 0px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-      button, button:focus{
-        padding: 0px 0px;
-         border:  0px solid white;
-    color: #33FF33;
-  text-decoration: none;
-        background-color:#101010;
-    outline-width: 0;
-}
-  button:hover{
-    cursor: copy;
-    outline-width: 0;
-    background-color: #33ff33;
-    color: #101010;
-    padding: 0px 0px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-      .help:hover{
-      cursor: help;
-      }
-      .typewriter {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  /*border-right: .15em solid orange; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  word-wrap:normal;
-  /*margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em; /* Adjust as needed */
-  animation: 
-    typing 3.5s steps(40, end)
-}
+        * {
+            font-family: tahoma;
+            font-size: 12px;
+            padding: 0px;
+            margin: 0px;
+        }
+        
+        p {
+            line-height: 18px;
+            word-wrap: normal;
+        }
+        
+        div {
+            width: calc(100% - 100px);
+            margin-left: auto;
+            margin-right: auto;
+            text: #33FF33;
+            word-wrap: normal;
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+        }
+        
+        #content {
+            padding: 10px;
+            background: #101010;
+            border-radius: 0px;
+            overflow-y: auto;
+            border: 1px solid #33ff33;
+            margin-top: 10px;
+            height: 502px;
+            width: calc(100% - 120px)
+        }
+        
+        #options {
+            float: left;
+            padding: 5px;
+            background: #101010;
+            border-radius: 2px;
+            overflow-y: auto;
+            border: 1px solid #808080;
+            display: flex;
+            flex-wrap: wrap;
+            flex-flow: column wrap;
+            align-content: flex-start;
+            margin-top: 5px;
+            height: 50px;
+            flex-direction: column;
+            width: calc(30% - 10px)
+        }
+        
+        #inventory {
+          flex-flow: column wrap;
+            float: left;
+            padding: 5px;
+            background: #101010;
+            border-radius: 2px;
+            overflow-y: auto;
+            border: 1px solid #808080;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            margin-top: 5px;
+            height: 50px;
+            flex-direction: column;
+            width: calc(30% - 10px);
+        }
+        
+        #stats {
+          flex-flow: column wrap;
+            float: left;
+            padding: 5px;
+            background: #101010;
+            border-radius: 2px;
+            overflow-y: auto;
+            border: 1px solid #808080;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            margin-top: 5px;
+            height: 50px;
+            width: calc(40% - 16px);
+            flex-direction: column;
+        }
+        
+        #bottomBox {
+            padding: 0px;
+            background: #101010;
+            border-radius: 0px;
+            border: 0px solid #808080;
+            margin-top: 0px;
+            height: 50px;
+            width: calc(100% - 100px)
+        }
+        
+        #input {
+            border-radius: 2px;
+            border: 1px solid #33ff33;
+            margin-top: 10px;
+            padding: 5px;
+            width: calc(100% - 10px);
+            background: #101010;
+            color: #33FF33
+        }
+        
+        #input:focus {
+            border-radius: 2px;
+            border: 1px solid #33ff33;
+            border-color: #33ff33;
+            margin-top: 10px;
+            padding: 5px;
+            width: calc(100% - 10px);
+            background: #101010;
+            color: #33FF33;
+            outline-width: 0;
+        }
+        
+        #status {
+            width: 88px;
+            display: block;
+            float: left;
+            margin-top: 15px;
+        }
+        
+        a:link,
+        a:visited {
+            color: #33FF33;
+            text-decoration: none;
+        }
+        
+        a:hover,
+        a:hover:visited {
+            background-color: #33ff33;
+            color: #101010;
+            padding: 0px 0px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        button,
+        button:focus {
+            padding: 0px 0px;
+            border: 0px solid white;
+            color: #33FF33;
+            text-decoration: none;
+            background-color: #101010;
+            outline-width: 0;
+        }
+        
+        button:hover {
+            cursor: crosshair;
+            outline-width: 0;
+            background-color: #33ff33;
+            color: #101010;
+            padding: 0px 0px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        button:hover.autoSend {
+            cursor: alias;
+            outline-width: 0;
+            background-color: #33ff33;
+            color: #101010;
+            padding: 0px 0px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .help:hover {
+            cursor: help;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            /* Ensures the content is not revealed until the animation */
+            /*border-right: .15em solid orange; /* The typwriter cursor */
+            white-space: nowrap;
+            /* Keeps the content on a single line */
+            word-wrap: normal;
+            /*margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+            letter-spacing: .15em;
+            /* Adjust as needed */
+            animation: typing 3.5s steps(40, end)
+        }
+        /* The typing effect */
+        
+        @keyframes typing {
+            from {
+                width: 0
+            }
+            to {
+                width: 100%
+            }
+        }
+    </style>
+</head>
 
-/* The typing effect */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-  </style>
-  </head>
-  <body text="#33FF33" bgcolor="#101010">
-    <a href="/">[QUIT]</a><br>
-    <div id="content"><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br><p></p><br></div>
-    <div>
-      <input type="text" id="input" />
+<body text="#33FF33" bgcolor="#101010">
+    <a href="/">[QUIT]</a>
+    <button onclick="toggleMusic()">[TOGGLE MUSIC]</button>
+    <br>
+    <div id="content">
+        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>
     </div>
+    <div>
+        <input type="text" id="input" placeholder=">" autofocus/>
+    </div>
+    <div id="bottomBox">
+        <container id="options">
+
+        </container>
+        <div id="inventory">
+
+        </div>
+        <div id="stats">
+
+        </div>
+    </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
     </script>
     <script src="/IO/terminal.js"></script>
     <script>
-     function escapeHtml(html) {
-  var text = document.createTextNode(html);
-  var p = document.createElement('p');
-  p.appendChild(text);
-}
-document.querySelector('input').addEventListener('input', e => {
-  escapeHtml(e.target.value)
-});
-
-
+        function escapeHtml(html) {
+            var text = document.createTextNode(html);
+            var p = document.createElement('p');
+            p.appendChild(text);
+        }
+        document.querySelector('input').addEventListener('input', e => {
+            escapeHtml(e.target.value)
+        });
     </script>
-  </body>
+    <audio preload="auto" src="https://cdn.glitch.com/5daf0ab4-1c17-4b7c-a3b9-758543335cab%2FDeep%20in%20the%20Dungeon%20-%20Music%20for%20Role%20Playing.mp3?1541481244247" loop="true" autobuffer>
+        Unsupported in Firefox
+    </audio>
+
+    <script>
+        function setCookie(c_name, value, exdays) {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+            document.cookie = c_name + "=" + c_value;
+        }
+
+        function getCookie(c_name) {
+            var i, x, y, ARRcookies = document.cookie.split(";");
+            for (i = 0; i < ARRcookies.length; i++) {
+                x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+                y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+                x = x.replace(/^\s+|\s+$/g, "");
+                if (x == c_name) {
+                    return unescape(y);
+                }
+            }
+        }
+
+        var song = document.getElementsByTagName('audio')[0];
+        var played = false;
+        var playing = false
+        var tillPlayed = getCookie('timePlayed');
+
+        function update() {
+            if (!played) {
+                if (tillPlayed) {
+                    song.currentTime = tillPlayed;
+                    song.play();
+                    played = true;
+                } else {
+                    song.play();
+                    played = true;
+                }
+            } else {
+                setCookie('timePlayed', song.currentTime);
+            }
+        }
+
+        song.play()
+        playing = true
+
+        function toggleMusic() {
+            if (playing) {
+                song.pause()
+            } else {
+                song.play()
+            }
+            playing = playing === false
+        }
+        document.body.style.zoom = "150%"
+    </script>
+</body>
+
 </html>
