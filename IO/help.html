@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="animated fadeIn crt">
+<html lang="en" class="animated fadeIn crt" oncontextmenu="return false;">
 <head>
 <title>Sky Tower Bot</title>
   <link rel="stylesheet" href="animate.css">
@@ -7,7 +7,7 @@
 </head>
 <body text="#33FF33" bgcolor="#101010"><code>
   <section>
-    <a href="/">Back</a><br>
+    <a href="/">[Back]</a><br>
   <h1>
     Help
   </h1>
@@ -63,7 +63,13 @@ a:link, a:visited {
     text-decoration: none;
     display: inline-block;
 }
-  
+    html{cursor:context-menu;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;}
   
     section {
         background: #101010;

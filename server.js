@@ -96,6 +96,7 @@ process.on('uncaughtException', function(err) {
  const express = require('express');
  const app = express();
  const path = require("path")
+ app.set('trust proxy', true)
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({
    extended: true
@@ -124,13 +125,23 @@ process.on('uncaughtException', function(err) {
  app.get("/IO/terminal.js", (request, response) => {
    response.sendFile(path.join(__dirname + '/IO/terminal.js'));
  });
- app.post('/pipe', function(req, res) {
+
+app.post('/pipe', function(req, res) {
+  var id = req.ip
    let dat = req.body
-   console.log(dat)
+   dat.identifier = intToRGB(hashCode(id))
    log(true, "[WEB] [" + dat.identifier + "] " + dat.message)
    //parse and handle
-   let response = handleWEB(dat)
+   let response = handleWEB(dat,id)
    res.send(JSON.stringify({identifier:"SERVER",message:response}));
+ });
+app.get('/pipe', function(req, res) {
+   var id = req.ip
+   let dat = req.body
+   
+   log(true, "[WEB] [P_CON] [" + intToRGB(hashCode(id))  + "] $connect")
+   log(true, "[WEB] [P_CON] [" + intToRGB(hashCode(id))  + "] User Connection Established")
+   res.send(JSON.stringify({identifier:"SERVER",message:"Connection to Server Established.",dat:[intToRGB(hashCode(id))]}));
  });
 
 
@@ -149,10 +160,10 @@ process.on('uncaughtException', function(err) {
    res.writeHead(200, {
      'Content-Type': 'text/html'
    });
-   res.write('<html lang="en" class="animated fadeIn crt">');
+   res.write('<html lang="en" class="animated fadeIn crt" oncontextmenu="return false;">');
    res.write('<head><title>Leaderboard</title><link rel="stylesheet" href="animate.css"><link rel="stylesheet" href="crt.css"></head>');
    res.write('<body text="#33FF33" bgcolor="#101010"><section><code>');
-   res.write('<a href="/">Back</a><br>')
+   res.write('<a href="/">[Back]</a><br>')
    res.write("<h1>Leaderboards</h1>");
    res.write("=====================");
    leaderboardDB.read();
@@ -165,16 +176,18 @@ process.on('uncaughtException', function(err) {
      res.write("<p>#" + (i + 1) + " " + leaderboard[i].Player.name + " | " + leaderboard[i].Player.score + "</p>");
    }
    res.write("<!--Sorry Everything is done server side :)-->");
-   res.end("</code></section><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }</style></body></html>");
+   res.end("</code></section><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;}</style></body></html>");
  });
+
+
  app.get("/log", (request, res) => {
    res.writeHead(200, {
      'Content-Type': 'text/html'
    });
-   res.write('<html lang="en" class="animated fadeIn crt">');
+   res.write('<html lang="en" class="animated fadeIn crt" oncontextmenu="return false;">');
    res.write('<head><title>Running Log</title><link rel="stylesheet" href="animate.css"><link rel="stylesheet" href="crt.css"></head>');
    res.write('<body text="#33FF33" bgcolor="#101010"><code>');
-   res.write('<a href="/">Back</a>&nbsp;<a href="/log">Refresh</a><br>')
+   res.write('<a href="/">[Back]</a>&nbsp;<a href="/log">[Refresh]</a><br>')
    let dat = "Offline"
    fs.readFile('./err/crashlog.txt', 'utf8', function(err, data) {
      data = data.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -183,7 +196,7 @@ process.on('uncaughtException', function(err) {
        return console.log(err);
      }
      res.write(data);
-     res.end("</code><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }</style></body></html>");
+     res.end("</code><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }button, button:focus{ padding: 0px 0px;        border:  0px solid white;    color: #33FF33;  text-decoration: none;        background-color:#101010;    outline-width: 0;}  button:hover{    outline-width: 0;    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;}html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;}</style></body></html>");
    });
  });
  app.get('*', function(req, res) {
@@ -199,13 +212,19 @@ process.on('uncaughtException', function(err) {
    loadBotSettings();
    game.init(client); //Initialize Game Engine
  });
- function handleWEB(msg){
- if (!msg.identifier){
-   log(true,"User has no identifier. Perform Handshake")
-   return "What is your name?"
- }
- 
- 
+ function handleWEB(msg,ipstring){
+   var reply = 'The server could not handle your request at this time. <button class="help" onclick="goToLog()">0xF980</button>'
+   if (!msg.identifier){
+   log(true,"Error Occured. No Identifier.")
+   return "An Unhandled Error has Occured (No_IP)"
+   }
+     
+     
+     
+     
+     
+   log(true,"An error occured. (No Interpereter)")
+   return reply
  }
  function handleMessage(msg){
  try {
@@ -353,3 +372,15 @@ process.on('uncaughtException', function(err) {
    }
    return embed
  }
+function hashCode(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+//turn Integer to RGB Hex string
+function intToRGB(i) {
+  var c = (i & 0x00FFFFFF).toString(16).toUpperCase();
+  return "00000".substring(0, 6 - c.length) + c;
+}

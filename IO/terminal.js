@@ -1,13 +1,52 @@
-$(function () {
-  "use strict";
-  // for better performance - to avoid searching in DOM
+
   var content = $('#content');
   var input = $('#input');
   var status = $('#status');
   const Http = new XMLHttpRequest();
   const url = "/pipe"
   var sessionID = false;
+  $(document).ready(function() {
+    console.log( "ready!" );
+  $.get( "/pipe", { identifier: sessionID, message: '$request_identifier'})
+      .done(function( data ) {
+        console.log(data)
+        let dat = JSON.parse(data)
+        addMessage(dat.message,true)
+      }).fail(function() {
+      addMessage("A Connection Error has Occured",true)
+});
+});
+function addMessage(message,isServer) {
+    if (isServer){isServer=' class="typewriter"'} else {isServer=''}
+    content.append('<p'+isServer+'><span style="color:##33FF33">'+ message + '</span></p><br>');
     
+    var element = document.getElementById("content");
+    while (element.offsetHeight < element.scrollHeight) {
+      element.removeChild(element.getElementsByTagName('p')[0]);
+      element.removeChild(element.getElementsByTagName('br')[0]);
+    } 
+  }
+function goToLog(){
+window.location.href = '/log';}
+function IC(elem){
+  var txt = elem.textContent || elem.innerText;
+  input.val(input.val() + txt+" "); 
+}
+$(function () {
+  "use strict";
+  // for better performance - to avoid searching in DOM
+  
+    
+  
+  function escapeHtml(html){
+  var text = document.createTextNode(html);
+  var p = document.createElement('p');
+  p.appendChild(text);
+  return p.innerHTML;
+}
+
+// Escape while typing & print result
+
   /**
    * Send message when user presses Enter key
    */
@@ -17,47 +56,23 @@ $(function () {
       if (!msg) {
         return;
       }
+      msg = msg.trim()
       
       addMessage(">" + msg);
       $(this).val('');
+      post(msg)
       
-      $.post( "/pipe", { identifier: sessionID, message: msg })
+    }
+  });
+  function post(msg){
+  $.post( "/pipe", { identifier: sessionID, message: msg})
       .done(function( data ) {
         console.log(data)
         let dat = JSON.parse(data)
-        addMessage(dat.message)
-      });
-     
-      // disable the input field to make the user wait until server
-      // sends back response
-      //input.attr('disabled', 'disabled');
-      // we know that the first message sent from a user their name
-      //if (myName === false) {
-       // myName = msg;
-      //}
-    }
-  });
-  /**
-   * This method is optional. If the server wasn't able to
-   * respond to the in 3 seconds then show some error message 
-   * to notify the user that something is wrong.
-   */
-  
-  /**
-   * Add message to the chat window
-   */
-  Http.onreadystatechange=function(){
-    console.log(this.responseText);
-  
+        addMessage(dat.message,true)
+      }).fail(function() {
+      addMessage("A Connection Error has Occured",true)
+    })
   }
-  function addMessage(message) {
-    
-    content.append('<p><span style="color:##33FF33">'+ message + '</span></p><br>');
-    var element = document.getElementById("content");
-    while (element.offsetHeight < element.scrollHeight ||
-      element.offsetWidth < element.scrollWidth) {
-      element.removeChild(element.getElementsByTagName('p')[0]);
-      element.removeChild(element.getElementsByTagName('br')[0]);
-    } 
-  }
+  
 });
