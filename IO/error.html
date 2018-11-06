@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="animated fadeIn crt">
+<html lang="en" class="animated fadeIn crt" oncontextmenu="return false;">
 <head>
 <title>Not Found</title>
   <link rel="stylesheet" href="animate.css">
   <link rel="stylesheet" href="crt.css">
 </head>
 <body text="#33FF33" bgcolor="#101010"><code>
+  <a href="/">Back</a>
   <h1>
     Uh Oh. Nothing Found.
   </h1>
@@ -15,4 +16,25 @@
   <img src="https://cdn.glitch.com/5daf0ab4-1c17-4b7c-a3b9-758543335cab%2Fkitteh.jpg?1541323616090">
   </code>
 </body>
+  <style>html{cursor:context-menu;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;}
+  a:link, a:visited {
+    color: #33FF33;
+  text-decoration: none;
+}
+  a:hover,a:hover:visited {
+    cursor:pointer;
+    background-color: #33ff33;
+    color: #101010;
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+  </style>
 </html>
