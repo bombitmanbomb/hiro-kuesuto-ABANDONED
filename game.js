@@ -139,16 +139,12 @@ class Game {
   constructor(message, data, sessionID) {
     if (!data) {
       //all initial generation
+      this.state = "setup"
       this.ended = false
       this.sessionID = "";
       this.userID = message.author.id;
-      this.replyChannel = message.channel.id;
-      if (!message.isWEB) {
-        this.sessionID = message.channel.id
-      } else {
-        this.sessionID = "private"
-      };
-      this.sessionID += "-" + message.author.id;
+      this.replyChannel = message.misc.reply
+      this.sessionID = sessionID
       this.log = new logData("Game", this.sessionID);
       this.log.init()
       this.log.write(true, "Generating Instance...", {
@@ -172,11 +168,15 @@ class Game {
   }
   parseIncoming(message) {
     this.log.write(true, "[Interperator] " + message.content)
+    var myArray = ["I can't do that.","I don't understand.","I beg your parden?","I can't do that.","I don't understand.","I beg your parden?","I can't do that.","I don't understand.","I beg your parden?","Talking to yourself is a sign of impending mental collapse."]
+    var rand = myArray[Math.floor(Math.random() * myArray.length)];
+    return rand
     //do stuff
   }
   save() {
     this.log.write(true, "Saving Instance.")
     instancedb.read();
+    instancedb.get("sessions").remove({"sessionID":this.sessionID}).write()
     instancedb.get("sessions").push(this).write();
     log.write(true, "saved session=>" + this.sessionID);
     updateStatus()
@@ -187,6 +187,9 @@ class Game {
     this.log.write(true, "Deleting Instance.");
     this.ended = true
     return this.Player
+  }
+  start() {
+  console.log("Game Starting")
   }
 } //EOF class Game
 /* class World
@@ -365,6 +368,27 @@ function getSession(sessionID) {
   });
   return session
 }
+function createSession(message) {
+  var sessions = getRunningGames()
+  var session = sessions.find(function(x) {
+    if (x.sessionID === message.sessionID) {
+      return x
+    };
+  });
+  if (session) {return false}
+  let game = new Game(message,undefined,message.sessionID)
+  game.save();
+  mapAllSavedInstances();
+  game.start()
+}
+function saveAll(){
+  var sessionList = Object.keys(instance);
+  for (let i = 0;i<sessionList.length;i++){
+    
+    instance[sessionList[i]].Game.save()
+  }
+}
+
 //Load instancedb into instance by session id
 function mapAllSavedInstances() {
   instancedb.read()
@@ -387,8 +411,11 @@ function randomValueHex(len) {
   @param {Object} message Discord Message Object OR Spoofed Web Object
   runs method through game.
 */
-function interperator(client, message) {
-  instance[message.sessionID].Game.parseIncoming(message)
+function interperator(message) {
+  let rep = instance[message.sessionID].Game.parseIncoming(message)
+  
+  return {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
+  
 }
 /* makeEmbed
   @param {String} text Embed Title
@@ -434,3 +461,5 @@ module.exports.instance = instance // testing
 module.exports.mapAllSavedInstances = mapAllSavedInstances;
 module.exports.randomValueHex = randomValueHex;
 module.exports.getSession = getSession;
+module.exports.createSession = createSession;
+module.exports.saveAll = saveAll
