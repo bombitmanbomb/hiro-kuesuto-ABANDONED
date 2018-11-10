@@ -45,6 +45,28 @@ const client = new Client({
 });
 client.login(process.env.SECRET);
 const game = require("./game.js"); //Game Module
+
+
+process.stdin.resume();//so the program will not close instantly
+function exitHandler(options, exitCode) {
+  console.log("KILL")
+    game.saveAll()
+    if (options.cleanup) console.log('clean');
+    if (exitCode || exitCode === 0) console.log(exitCode);
+    if (options.exit) process.exit();
+}
+process.on('exit', exitHandler.bind(null, {exit:true}));
+process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
+process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
+process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
+
+
+
+
+
+
+
 //Crash Handling
 /*
 
@@ -183,7 +205,7 @@ app.get("/leaderboard", (request, res) => {
 		res.write("<p>#" + (i + 1) + " " + leaderboard[i].Player.name + " | " + leaderboard[i].Player.score + "</p>");
 	}
 	res.write("<!--Sorry Everything is done server side :)-->");
-	res.end('</code></section><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;}</style></body><script>document.body.style.zoom="150%"</script></html>');
+	res.end('</code></section><style>::-webkit-scrollbar {    width: 4px;}/* Track */::-webkit-scrollbar-track {    box-shadow: inset 0 0 5px grey;     border-radius: 1px;} /* Handle */::-webkit-scrollbar-thumb {    background: #33FF33;     border-radius: 1px;}/* Handle on hover */::-webkit-scrollbar-thumb:hover {    background: #33FF33; } a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;}</style></body><script>document.body.style.zoom="150%"</script></html>');
 });
 
 
@@ -203,7 +225,7 @@ app.get("/log", (request, res) => {
 			return console.log(err);
 		}
 		res.write(data);
-		res.end('</code><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }button, button:focus{ padding: 0px 0px;        border:  0px solid white;    color: #33FF33;  text-decoration: none;        background-color:#101010;    outline-width: 0;}  button:hover{    outline-width: 0;    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;}html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;}</style></body><script>document.body.style.zoom="150%"</script></html>');
+		res.end('</code><style>a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }button, button:focus{ padding: 0px 0px;        border:  0px solid white;    color: #33FF33;  text-decoration: none;        background-color:#101010;    outline-width: 0;}  button:hover{    outline-width: 0;    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;}html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;} ::-webkit-scrollbar {    width: 4px;}/* Track */::-webkit-scrollbar-track {    box-shadow: inset 0 0 5px grey;     border-radius: 1px;} /* Handle */::-webkit-scrollbar-thumb {    background: #33FF33;     border-radius: 1px;}/* Handle on hover */::-webkit-scrollbar-thumb:hover {    background: #33FF33; };</style></body><script>document.body.style.zoom="150%"</script></html>');
 	});
 });
 app.get('*', function (req, res) {
@@ -242,6 +264,7 @@ function makeButton(text, autoSEND, message) {
 var WEB = {}
 
 function handleWEB(msg, ipstring) {
+  console.log(msg)
 	var id = "WEB-" + intToRGB(hashCode(ipstring))
 	if (!WEB[id]) {
 		WEB[id] = {
@@ -256,55 +279,9 @@ function handleWEB(msg, ipstring) {
 		log(true, "Error Occured. No Identifier.")
 		return "An Unhandled Error has Occured (No_IP)"
 	}
-	rep.reply = "I Dont Understand."
-	switch (WEB[id].stage) {
-
-		case 0:
-			if (msg.message !== "play") {
-        rep.options.push(makeButton("Play",true))
-				break;
-			}
-			rep.reply = "What is your name?"
-			WEB[id].stage++
-				break;
-		case 1:
-			rep.reply = "You're name is " + msg.message + ". Confirm? (" + makeButton("Yes", true) + "/" + makeButton("No", true) + ")"
-			rep.options.push(makeButton("Yes", true))
-      rep.options.push(makeButton("No", true))
-      WEB[id].stage++
-				WEB[id].temp = {
-					name: msg.message
-				}
-			break;
-		case 2:
-			if (msg.message.toLowerCase() === "yes") {
-				WEB[id].stage++;
-				rep.reply = "Welcome to TTA " + WEB[id].temp.name + ". This is not done yet and is just to test chat mechanics. You can now " + makeButton("Enter the Dungeon", true);
-        rep.options.push(makeButton("Enter the Dungeon",true))
-				WEB[id].name = WEB[id].temp.name;
-				delete WEB[id].temp;
-			} else {
-				WEB[id].stage = 1;
-				rep.reply = "What is your name?";
-			}
-			break;
-		case 3:
-			if (msg.message.toLowerCase() === "enter the dungeon") {
-				WEB[id].stage++
-			}
-			rep.reply = "You enter the Dungeon.<br/>You are standing in a Well Lit room. There is a " + makeButton("Chest") + " here.<br/>There are doors on the " + makeButton("North") + " and " + makeButton("West") + " sides of the room."
-      rep.options.push(makeButton("Open"))
-      rep.options.push(makeButton("Go"))
-      rep.options.push(makeButton("Chest"))
-      rep.options.push(makeButton("North"))
-      rep.options.push(makeButton("West"))
-		case 4:
-
-			break
-		default:
-			rep.reply = "Command Invalid."
-			break
-	}
+  msg.author = {id:msg.identifier,name:""}
+  msg.sessionID = "WEB-"+msg.identifier
+	rep = game.interperator(msg)
 
 
 	//log(true,"")
@@ -323,14 +300,11 @@ function handleMessage(msg) {
 		}
 		message.isDM = (message.channel.type === "dm")
 		if (message.content.startsWith(config.prefix)) {
-			runCommand(message);
+			console.log(runCommand(message));
 			return;
 		} //RUN COMMAND AND STOP PROGRAM
-		if (message.isDM) {
-			message.sessionID = "private-" + message.author.id
-		} else {
-			message.sessionID = message.channel.id + "-" + message.author.id
-		}
+			message.sessionID = "DISCORD-" + message.author.id
+		
 		let myGame = game.getSession(message.sessionID)
 		if (!myGame) {
 			message.validSession = false
@@ -345,8 +319,11 @@ function handleMessage(msg) {
 		if (!message.validSession) {
 			return
 		}
+    
 		//if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
-		game.interperator(client, message)
+		var rep = game.interperator(message)
+    if (!rep){return}
+    message.channel.send(rep.reply)
 	} catch (err) {
 		crash(err)
 	};
@@ -369,6 +346,9 @@ function loadBotSettings() {
   send help info to message.author. returns undefined
   @param {Object} message #client.on message object
 */
+function killAll(){
+process.exit(0)
+}
 function sendHelp(message) {
 	let helpMessage = "";
 	helpMessage += "Work in Progress. Info Available on https://sky-tower.glitch.me/\n";
@@ -389,16 +369,44 @@ function runCommand(message) {
 		let args = message.content.slice(config.prefix.length).trim().split(/ +/g);
 		let command = args.shift().toLowerCase();
 		switch (command) {
+      case "update":
+				process.exit(0)
+				break;
 			case "help":
 				sendHelp(message);
 				break;
 			case "eval":
 				if (debug && isDev(message)) {
-					eval(message.content.slice(5))
+					eval(message.content.slice(5));
 				} //DEBUG LINE
 				break;
 			case "play":
-				//make a new instance for handling
+        console.log(message.channel.id)
+        if (message.channel.id!=="507401000903114763"){return false};
+        let myGame = game.getSession("DISCORD-"+message.author.id);
+        console.log(myGame)
+        if (myGame!==undefined){return message.reply("You already have a running game session")};
+        client.guilds.get('507400559423127554').createRole({name:"GAME-"+message.author.username})
+          .then(role =>{
+          message.member.addRole(role.id)
+            .then(()=>{
+            client.guilds.get('507400559423127554').createChannel("GAME-"+message.author.username, 'text')
+              .then((channel)=>{
+                channel.setParent("507410775841832963")
+                .then(()=>{
+                  channel.overwritePermissions(message.guild.id, { VIEW_CHANNEL: true, SEND_MESSAGES: false }).then(
+                    channel.overwritePermissions(role.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true })).catch(console.log)
+                    message.member.addRole(role.id)
+                    channel.send("<@"+message.author.id+"> This is your Instance")
+                    message.sessionID = "DISCORD-"+message.author.id
+                  message.misc = {}
+                  message.misc.reply = channel.id
+                    game.createSession(message)
+                })
+              });
+            });
+          })
+        ;
 				break;
 			case "pause":
 				//change state of session
