@@ -163,7 +163,7 @@ app.post('/pipe', function (req, res) {
 		dat: {
       inventory: response.inventory,
 			options: response.options,
-			stats: ["v0.1.8"]
+			stats: response.stats
 		}
 	}));
 });
@@ -277,7 +277,7 @@ function handleWEB(msg, ipstring) {
 	rep.reply = 'The server could not handle your request at this time. <button class="help" onclick="goToLog()">0xF980</button>'
   rep.options = ["ERROR"]
   rep.inventory = ["ERROR"]
-  rep.stats = ["ERROR"]
+  rep.gameStats = ["ERROR"]
 	if (!msg.identifier) {
 		log(true, "Error Occured. No Identifier.")
 		return "An Unhandled Error has Occured (No_IP)"
@@ -322,7 +322,7 @@ function handleMessage(msg) {
 		if (!message.validSession) {
 			return
 		}
-    
+    if (message.channel.id !==myGame.replyChannel){return}
 		//if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
 		var rep = game.interperator(message)
     if (!rep){return}

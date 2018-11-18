@@ -3,7 +3,7 @@ var input = $('#input');
 var status = $('#status');
 var options = $('#options');
 var inventory = $('#inventory');
-var stats = $('#stats');
+var stats = $('#gameStats');
 const Http = new XMLHttpRequest();
 const url = "/pipe"
 var sessionID = false;
@@ -79,6 +79,7 @@ function clearChildren(element) {
 }
 
 function setDisplay(dat) {
+  console.log(dat)
   options.empty()
   inventory.empty()
   stats.empty()
@@ -92,12 +93,14 @@ function setDisplay(dat) {
       options.append(dat.dat.options[i])
     } } else {options.append("User Input")}
   } else {options.append("User Input")}
+  
   if (dat.dat.inventory!==undefined) {
     if (dat.dat.inventory.length>0){
     for (let i = 0; i < dat.dat.inventory.length; i++) {
       inventory.append(dat.dat.inventory[i])
     } } else {inventory.append("Inventory Empty")}
   } else {inventory.append("Inventory Empty")}
+  
   if (dat.dat.stats!==undefined) {
     if (dat.dat.stats.length>0){
     for (let i = 0; i < dat.dat.stats.length; i++) {

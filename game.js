@@ -1,3 +1,19 @@
+const levelTiles = [  "&nbsp;",  "╹",
+  "╸",
+  "╝",
+  "╺",
+  "╚",
+  "═",
+  "╩",
+  "╻",
+  "║",
+  "╗",
+  "╣",
+  "╔",
+  "╠",
+  "╦",
+  "╬"
+]
 var instancedb;
 var entitydb;
 var itemdb;
@@ -9,6 +25,8 @@ var leaderboard
 var leaderboardDB
 const LevelGridKeys = require('roguelike/level/gridKeys'); //https://github.com/tlhunter/node-roguelike#level-gridKeys
 //SERVER log class
+
+
 class Log {
   write(logToConsole, text, data) {
     if (logToConsole) {
@@ -139,6 +157,7 @@ class Game {
   constructor(message, data, sessionID) {
     if (!data) {
       //all initial generation
+    
       this.state = "setup"
       this.ended = false
       this.sessionID = "";
@@ -199,12 +218,26 @@ class Game {
   */
   parseIncoming(message) {
     this.log.write(true, "[Interpreter] " + message.content)
-    
-    return {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
+    let repDat = GlobalInterpreter(message,this)
+    for (var property in repDat.vars) {
+        this[property] = repDat.vars[property];
+    }
+    return repDat.reply
   }
 } //EOF class Game
 //for interpreter maybe Backus-naur or PEGjs??
-
+function GlobalInterpreter(message,THIS){
+  let reply = {
+    reply:"",
+    options:[],
+    stats:[]
+  }
+  let temp = {}
+  
+  reply = {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
+  temp = undefined
+  return {"reply":reply,"vars":THIS}
+}
 
 
 
