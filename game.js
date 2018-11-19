@@ -1,3 +1,19 @@
+const levelTiles = [  "&nbsp;",  "╹",
+  "╸",
+  "╝",
+  "╺",
+  "╚",
+  "═",
+  "╩",
+  "╻",
+  "║",
+  "╗",
+  "╣",
+  "╔",
+  "╠",
+  "╦",
+  "╬"
+]
 var instancedb;
 var entitydb;
 var itemdb;
@@ -9,6 +25,8 @@ var leaderboard
 var leaderboardDB
 const LevelGridKeys = require('roguelike/level/gridKeys'); //https://github.com/tlhunter/node-roguelike#level-gridKeys
 //SERVER log class
+
+
 class Log {
   write(logToConsole, text, data) {
     if (logToConsole) {
@@ -139,6 +157,7 @@ class Game {
   constructor(message, data, sessionID) {
     if (!data) {
       //all initial generation
+    
       this.state = "setup"
       this.ended = false
       this.sessionID = "";
@@ -147,6 +166,8 @@ class Game {
       this.sessionID = sessionID
       this.log = new logData("Game", this.sessionID);
       this.log.init()
+      this.int = {}
+      this.int.last = {reply:"",options:[],inventory:[],stats:[]}
       this.log.write(true, "Generating Instance...", {
         'ID': this.sessionID
       })
@@ -166,19 +187,12 @@ class Game {
     }
     this.log.write(true, "Generation Complete.");
   }
-  parseIncoming(message) {
-    this.log.write(true, "[Interperator] " + message.content)
-    var myArray = ["I can't do that.","I don't understand.","I beg your parden?","I can't do that.","I don't understand.","I beg your parden?","I can't do that.","I don't understand.","I beg your parden?","Talking to yourself is a sign of impending mental collapse."]
-    var rand = myArray[Math.floor(Math.random() * myArray.length)];
-    return rand
-    //do stuff
-  }
   save() {
     this.log.write(true, "Saving Instance.")
     instancedb.read();
     instancedb.get("sessions").remove({"sessionID":this.sessionID}).write()
     instancedb.get("sessions").push(this).write();
-    log.write(true, "saved session=>" + this.sessionID);
+    log.write(true, "Saved Session=>" + this.sessionID);
     updateStatus()
   }
   end() {
@@ -191,7 +205,74 @@ class Game {
   start() {
   console.log("Game Starting")
   }
+  
+    /*Dynamic Response && Parser
+  Incoming; Object
+  content: Incoming text
+  isWEB: Website;true | discord;undefined/false
+  Outgoing; Object
+  Array reply: Displayed text
+  Array options: Text Options - go use north west chest door open
+  Array inventory: Bottom Center Box.
+  Array stats: Bottom Right Box Text - Room Info
+  */
+  parseIncoming(message) {
+    this.log.write(true, "[Interpreter] " + message.content)
+    let repDat = GlobalInterpreter(message,this)
+    for (var property in repDat.vars) {
+        this[property] = repDat.vars[property];
+    }
+    return repDat.reply
+  }
 } //EOF class Game
+//for interpreter maybe Backus-naur or PEGjs??
+function GlobalInterpreter(message,THIS){
+  let reply = {
+    reply:"",
+    options:[],
+    stats:[]
+  }
+  let temp = {}
+  
+  reply = {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
+  temp = undefined
+  return {"reply":reply,"vars":THIS}
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+Incoming: 
+  String text: Button Text 
+  Boolean autoSEND: Will clicking send only the text in. if not add to input.
+  message: Full Message Object
+Outgoing:
+  String response
+*/
+function makeButton(text, autoSEND, message) {
+	var classDat = ""
+	if (!message) {
+		message = {};
+		message.isWEB = true
+	}
+	if (!autoSEND) {
+		autoSEND = false
+	} else {
+		classDat = "class='autoSend' "
+	}
+	if (!message.isWEB) {
+		return text
+	}
+	return "<button " + classDat + "onclick='IC(this," + autoSEND + ");'>" + text + "</button>" //IC() is in terminal.js
+}
 /* class World
   //constructor()
     {obj} data #pass stored instance data to create an instance w/ old data. else generate new World 
@@ -412,10 +493,7 @@ function randomValueHex(len) {
   runs method through game.
 */
 function interperator(message) {
-  let rep = instance[message.sessionID].Game.parseIncoming(message)
-  
-  return {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
-  
+  return instance[message.sessionID].Game.parseIncoming(message)
 }
 /* makeEmbed
   @param {String} text Embed Title

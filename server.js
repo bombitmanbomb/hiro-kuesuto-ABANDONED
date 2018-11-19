@@ -163,7 +163,7 @@ app.post('/pipe', function (req, res) {
 		dat: {
       inventory: response.inventory,
 			options: response.options,
-			stats: ["v0.1.8"]
+			stats: response.stats
 		}
 	}));
 });
@@ -266,15 +266,18 @@ var WEB = {}
 function handleWEB(msg, ipstring) {
   console.log(msg)
 	var id = "WEB-" + intToRGB(hashCode(ipstring))
-	if (!WEB[id]) {
-		WEB[id] = {
-			stage: 0
-		}
-	}
+  msg.sessionID = "WEB-"+intToRGB(hashCode(ipstring))
+  msg.misc = {}
+  msg.misc.reply = false
+  msg.author = {}
+  msg.author.id = ipstring
+  let myGame = game.getSession("WEB-"+intToRGB(hashCode(ipstring)));
+        if (myGame===undefined){game.createSession(msg)};
   var rep = {}
 	rep.reply = 'The server could not handle your request at this time. <button class="help" onclick="goToLog()">0xF980</button>'
-  rep.options = []
-  rep.inventory = []
+  rep.options = ["ERROR"]
+  rep.inventory = ["ERROR"]
+  rep.gameStats = ["ERROR"]
 	if (!msg.identifier) {
 		log(true, "Error Occured. No Identifier.")
 		return "An Unhandled Error has Occured (No_IP)"
@@ -319,7 +322,7 @@ function handleMessage(msg) {
 		if (!message.validSession) {
 			return
 		}
-    
+    if (message.channel.id !==myGame.replyChannel){return}
 		//if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
 		var rep = game.interperator(message)
     if (!rep){return}

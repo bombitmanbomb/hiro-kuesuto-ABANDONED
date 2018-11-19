@@ -10,18 +10,18 @@ ROOM FLAGS
   '5': 32, wLocked
   '6': 64, eLocked
   '7': 128, sLocked
-  '8': 256, chestCommon
-  '9': 512, chestUncommon
-  '10': 1024, chestRare
-  '11': 2048, chestLegendary
-  '12': 4096, monsterCommon
-  '13': 8192, monsterUncommon
-  '14': 16384, monsterLegendary
-  '15': 32768, monsterBoss
-  '16': 65536, entranceZone -- start of Level
-  '17': 131072, exitZone -- end of level
+  '8': 256, entranceZone -- start of Level
+  '9': 512, exitZone -- end of level
+  '10': 1024, monsterCommon
+  '11': 2048, monsterUncommon
+  '12': 4096, monsterRare
+  '13': 8192, monsterLegendary
+  '14': 16384, monsterBoss
+  '15': 32768, chestCommon
+  '16': 65536, chestUncommon
+  '17': 131072, chestRare
   '18': 262144, startingChest
-  '19': 524288, unused
+  '19': 524288, chestLegendary
   '20': 1048576,DESCRIPTOR 1--SEE BELOW
   '21': 2097152,DESCRIPTOR 1--SEE BELOW
   '22': 4194304,DESCRIPTOR 1--SEE BELOW

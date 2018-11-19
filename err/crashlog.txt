@@ -1,24 +1,5 @@
 [MASTER LOG]
-[Sat Nov 10 2018 19:55:38 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [SERVER] Bot Loaded.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [SERVER] Engine Loaded.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [Game] Loading Instance...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [WorldHandler] Loading World...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [WorldGen] Loading WorldGen...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [WorldGen] Loaded Seed
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [WorldGen] WorldgGen Loaded.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [WorldHandler] World Loaded.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [PlayerHandler] Loading Player...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [PlayerHandler] Player Loaded.=> {"log":{"module":"PlayerHandler","session":"DISCORD-174609192340946944"},"name":"bomb_and_kou#0669","score":0,"posX":0,"posY":0,"stats":{"level":1,"exp":0,"HPMax":100,"HP":100,"Str":150,"Con":130,"Def":110,"Atk":130,"Int":70,"Spd":100},"floor":0,"bag":[],"equipped":-1}
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [4FD515] [Game] Generation Complete.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [Game] Loading Instance...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [WorldHandler] Loading World...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [WorldGen] Loading WorldGen...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [WorldGen] Loaded Seed
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [WorldGen] WorldgGen Loaded.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [WorldHandler] World Loaded.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [PlayerHandler] Loading Player...
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [PlayerHandler] Player Loaded.=> {"log":{"module":"PlayerHandler","session":"DISCORD-104042321628123136"},"name":"Lucky#8648","score":0,"posX":0,"posY":0,"stats":{"level":1,"exp":0,"HPMax":100,"HP":100,"Str":150,"Con":130,"Def":110,"Atk":130,"Int":70,"Spd":100},"floor":0,"bag":[],"equipped":-1}
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [B992E6] [Game] Generation Complete.
-[Sat Nov 10 2018 19:55:39 GMT+0000 (UTC)] [SERVER] Instances Loaded.
-[Sat Nov 10 2018 19:55:41 GMT+0000 (UTC)] [SERVER] [COMMAND] bomb_and_kou> >play
+[Sun Nov 18 2018 19:07:20 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
+[Sun Nov 18 2018 19:07:20 GMT+0000 (UTC)] [SERVER] Bot Loaded.
+[Sun Nov 18 2018 19:07:21 GMT+0000 (UTC)] [SERVER] Engine Loaded.
+[Sun Nov 18 2018 19:07:21 GMT+0000 (UTC)] [SERVER] Instances Loaded.
