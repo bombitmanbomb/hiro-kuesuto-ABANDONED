@@ -52,13 +52,17 @@ function IC(elem, autoPost) {
 }
 
 function sendMSG(msg) {
+  msg = encodeHTML(msg)
   msg = msg.trim()
   input.val('');
   addMessage(">" + msg);
   post(msg)
 }
-
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
 function post(msg) {
+  
   $.post("/pipe", {
     identifier: sessionID,
     message: msg

@@ -152,7 +152,7 @@ app.post('/pipe', function (req, res) {
 	var id = req.ip
 	let dat = req.body
 	dat.identifier = intToRGB(hashCode(id))
-	log(true, "[WEB] [" + dat.identifier + "] " + dat.message)
+	//log(true, "[WEB] [" + dat.identifier + "] " + dat.message)
 	//parse and handle
 	dat.isWEB = true
 	let response = handleWEB(dat, id)
@@ -278,6 +278,7 @@ function handleWEB(msg, ipstring) {
   rep.options = ["ERROR"]
   rep.inventory = ["ERROR"]
   rep.gameStats = ["ERROR"]
+  let err = rep
 	if (!msg.identifier) {
 		log(true, "Error Occured. No Identifier.")
 		return "An Unhandled Error has Occured (No_IP)"
@@ -326,6 +327,7 @@ function handleMessage(msg) {
 		//if (message.author.bot){return log(true, "[INFO] " + message.author.username + "> " + message.content);}
 		var rep = game.interperator(message)
     if (!rep){return}
+    log(true, "[DIS] [" + intToRGB(hashCode(message.author.id)) + "] " + rep.reply)
     message.channel.send(rep.reply)
 	} catch (err) {
 		crash(err)
@@ -383,7 +385,8 @@ function runCommand(message) {
 					eval(message.content.slice(5));
 				} //DEBUG LINE
 				break;
-			case "play":
+			case "new":
+        
         console.log(message.channel.id)
         if (message.channel.id!=="507401000903114763"){return false};
         let myGame = game.getSession("DISCORD-"+message.author.id);
@@ -400,7 +403,7 @@ function runCommand(message) {
                   channel.overwritePermissions(message.guild.id, { VIEW_CHANNEL: true, SEND_MESSAGES: false }).then(
                     channel.overwritePermissions(role.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true })).catch(console.log)
                     message.member.addRole(role.id)
-                    channel.send("<@"+message.author.id+"> This is your Instance")
+                    channel.send("<@"+message.author.id+"> This is your Instance. Start with `play`")
                     message.sessionID = "DISCORD-"+message.author.id
                   message.misc = {}
                   message.misc.reply = channel.id
@@ -482,4 +485,7 @@ function hashCode(str) {
 function intToRGB(i) {
 	var c = (i & 0x00FFFFFF).toString(16).toUpperCase();
 	return "00000".substring(0, 6 - c.length) + c;
+}
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
