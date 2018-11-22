@@ -23,8 +23,17 @@ var client
 var fs = require('fs');
 var leaderboard
 var leaderboardDB
+//var grammar 
 const LevelGridKeys = require('roguelike/level/gridKeys'); //https://github.com/tlhunter/node-roguelike#level-gridKeys
+
+
+
+
+
 //SERVER log class
+
+
+
 
 
 class Log {
@@ -59,6 +68,7 @@ const init = async (Client) => {
   entitydb = low(new FileSync("./datasets/entities.json"));
   instancedb = low(new FileSync("./datasets/instance.json"));
   leaderboardDB = low(new FileSync("./datasets/leaderboards.json"));
+  //grammar = low(new FileSync("./datasets/grammar.json"));
   instancedb.defaults({
     'sessions': []
   }).write();
@@ -71,6 +81,11 @@ const init = async (Client) => {
   leaderboardDB.defaults({
     'leaderboard': []
   }).write();
+  /*
+  grammar.defaults({
+    'grammer': {}
+  }).write();
+  */
   mapAllSavedInstances()
   leaderboard = new Leaderboard(client)
   updateLeaderboard()
@@ -102,7 +117,7 @@ class Leaderboard {
       } else {
         embed += response
       }
-      message.edit("This message will auto update", makeEmbed("Leaderboards", embed))
+      message.edit("", makeEmbed("Leaderboards", embed,{timestamp:new Date(),footer:{text:"Last Updated"}}))
     }).catch(console.error);
   }
 }
@@ -167,7 +182,8 @@ class Game {
       this.log = new logData("Game", this.sessionID);
       this.log.init()
       this.int = {}
-      this.int.last = {reply:"",options:[],inventory:[],stats:[]}
+      this.int.last = {reply:"",options:[],inventory:[],stats:[],vars:null,ignore:false}
+      this.int.newGame=true
       this.log.write(true, "Generating Instance...", {
         'ID': this.sessionID
       })
@@ -187,13 +203,17 @@ class Game {
     }
     this.log.write(true, "Generation Complete.");
   }
-  save() {
+  save(dat,last) {
     this.log.write(true, "Saving Instance.")
     instancedb.read();
+    //console.log(this)
+    if (last){this.int.last = last}
+    this.int.last.vars = null
     instancedb.get("sessions").remove({"sessionID":this.sessionID}).write()
     instancedb.get("sessions").push(this).write();
     log.write(true, "Saved Session=>" + this.sessionID);
     updateStatus()
+    if (last){this.int.last = last}
   }
   end() {
     instancedb.read()
@@ -217,38 +237,87 @@ class Game {
   Array stats: Bottom Right Box Text - Room Info
   */
   parseIncoming(message) {
-    this.log.write(true, "[Interpreter] " + message.content)
+    if (!message.content) {
+    this.log.write(true, "[Interpreter] " + message.message)
+    } else {
+     this.log.write(true, "[Interpreter] " + message.content) 
+    }
     let repDat = GlobalInterpreter(message,this)
     for (var property in repDat.vars) {
         this[property] = repDat.vars[property];
     }
+    //if (!repDat.ignore==true){
+    this.int.last = repDat.reply;
+    //console.log(repDat)
+    //console.log(this.int.last)
+    //} else {console.log("Not Saving.")}
+    //this.int.last.vars = null
+    if (repDat.ignore=="SAVE"){this.save(undefined,this.int.last)}
     return repDat.reply
   }
 } //EOF class Game
 //for interpreter maybe Backus-naur or PEGjs??
+var grammer = {
+
+
+
+}
+function GIrep(reply,THIS,IGNORE) {
+  if (!IGNORE==true){ IGNORE = false;}
+ return {"reply":reply,"vars":THIS,ignore:IGNORE}
+}
 function GlobalInterpreter(message,THIS){
+  if (!message.content){message.content = message.message}
   let reply = {
     reply:"",
     options:[],
     stats:[]
   }
   let temp = {}
+  if (message.content==="play"||message.content=="repeat"){
+    if (!THIS.int.newGame){
+      return GIrep(THIS.int.last,THIS)
+    } else { 
+    THIS.int.newGame = false
+    THIS.state = "playerCreation"
+      //NEW GAME START
+    }
+   }
+  if (THIS.int.newGame){ // play has never been run
+    reply.reply = "No Running Game. Use "+makeButton("play", true, message)
+    reply.options = [makeButton("play", true,message)]
+  return GIrep(reply,THIS)
+  }
+  //begin game
+  if (message.content==="save"){
+    reply = {}
+    reply = THIS.int.last
+    //console.log(reply.reply)
+    reply.reply = "Session Saved."+lineBreak(message)+reply.reply
+    reply.options = THIS.int.last.options
+    reply.inventory = THIS.int.last.inventory
+    reply.stats = THIS.int.last.stats
+    return GIrep(reply,THIS,"SAVE");
+  }
+  var commands = cmdParser(message.content)
+  
   
   reply = {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
   temp = undefined
-  return {"reply":reply,"vars":THIS}
+  return GIrep(reply,THIS)
 }
+function cmdParser(message) {
+  grammer.read()
+  let cmdlist = []
+  let cmdstrings = []
+  //let g = grammar.get("grammer").value()
+  
+  
+  
+  
 
-
-
-
-
-
-
-
-
-
-
+return {}
+}
 /*
 Incoming: 
   String text: Button Text 
@@ -257,6 +326,16 @@ Incoming:
 Outgoing:
   String response
 */
+function lineBreak(message){
+if (!message) {
+		message = {};
+		message.isWEB = true
+	}
+  if (!message.isWEB) {
+		return "\n"
+	}
+  return "<br>"
+}
 function makeButton(text, autoSEND, message) {
 	var classDat = ""
 	if (!message) {
@@ -269,7 +348,7 @@ function makeButton(text, autoSEND, message) {
 		classDat = "class='autoSend' "
 	}
 	if (!message.isWEB) {
-		return text
+		return "`"+text+"`"
 	}
 	return "<button " + classDat + "onclick='IC(this," + autoSEND + ");'>" + text + "</button>" //IC() is in terminal.js
 }
