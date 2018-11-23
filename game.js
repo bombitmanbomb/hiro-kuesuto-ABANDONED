@@ -225,17 +225,6 @@ class Game {
   start() {
   console.log("Game Starting")
   }
-  
-    /*Dynamic Response && Parser
-  Incoming; Object
-  content: Incoming text
-  isWEB: Website;true | discord;undefined/false
-  Outgoing; Object
-  Array reply: Displayed text
-  Array options: Text Options - go use north west chest door open
-  Array inventory: Bottom Center Box.
-  Array stats: Bottom Right Box Text - Room Info
-  */
   parseIncoming(message) {
     if (!message.content) {
     this.log.write(true, "[Interpreter] " + message.message)
@@ -246,26 +235,17 @@ class Game {
     for (var property in repDat.vars) {
         this[property] = repDat.vars[property];
     }
-    //if (!repDat.ignore==true){
-    this.int.last = repDat.reply;
-    //console.log(repDat)
-    //console.log(this.int.last)
-    //} else {console.log("Not Saving.")}
-    //this.int.last.vars = null
-    if (repDat.ignore=="SAVE"){this.save(undefined,this.int.last)}
+    this.int.last = repDat.reply
+    if (repDat.action=="SAVE"){this.save(undefined,this.int.last)}
     return repDat.reply
   }
-} //EOF class Game
-//for interpreter maybe Backus-naur or PEGjs??
-var grammer = {
-
-
-
 }
-function GIrep(reply,THIS,IGNORE) {
-  if (!IGNORE==true){ IGNORE = false;}
- return {"reply":reply,"vars":THIS,ignore:IGNORE}
+function GIrep(reply,THIS,ACTION) {
+  if (!ACTION){ ACTION = false;}
+ return {"reply":reply,"vars":THIS,action:ACTION}
 }
+
+
 function GlobalInterpreter(message,THIS){
   if (!message.content){message.content = message.message}
   let reply = {
@@ -274,9 +254,10 @@ function GlobalInterpreter(message,THIS){
     stats:[]
   }
   let temp = {}
-  if (message.content==="play"||message.content=="repeat"){
+  message.lowercase = String(message.content).toLowerCase()//lowerCase
+  if (message.lowercase==="play"||message.lowercase=="repeat"){
     if (!THIS.int.newGame){
-      return GIrep(THIS.int.last,THIS)
+      return GIrep(THIS.int.last,THIS) //repeat last message
     } else { 
     THIS.int.newGame = false
     THIS.state = "playerCreation"
@@ -285,11 +266,66 @@ function GlobalInterpreter(message,THIS){
    }
   if (THIS.int.newGame){ // play has never been run
     reply.reply = "No Running Game. Use "+makeButton("play", true, message)
-    reply.options = [makeButton("play", true,message)]
+    reply.options = [makeButton("play", true, message)]
   return GIrep(reply,THIS)
   }
   //begin game
-  if (message.content==="save"){
+  //Player Creation
+    if (THIS.state.startsWith("playerCreat")){
+      temp.state = THIS.state
+      reply.stats = ["Player Creation"]
+    if (temp.state.length>15){temp.state = temp.state.slice(15);} else {
+    //STEP 1
+      reply.options = ["User input"]
+      reply.reply = "What is your name?"
+      THIS.state = "playerCreation-1"
+      return GIrep(reply,THIS)
+    }
+      temp.state = Number(temp.state)
+    switch (Number(temp.state)) {
+      case 1:                  
+        THIS.int.tempName = message.content
+        reply.reply = "Is the name "+makeButton(message.content,false,message)+" correct? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
+        reply.options.push(makeButton("Yes",true,message))
+        reply.options.push(makeButton("No",true,message))
+        THIS.state = "playerCreation-2"
+        return GIrep(reply,THIS)
+        break
+      case 2:
+        if (!yesno(message.lowercase)){
+        reply.options = ["User input"]
+        reply.reply = "What is your name?"
+        THIS.state = "playerCreation-1"
+        return GIrep(reply,THIS)
+        } else {
+          THIS.Player.name = THIS.int.tempName
+          THIS.int.tempName = null
+          reply.reply = "You will now be known as "+makeButton(THIS.Player.name,false,message)+"."+lineBreak(message)+"Select your Class:"+lineBreak(message)+"TODO"    
+          THIS.state = "playerCreation-3"
+          return GIrep(reply,THIS)
+        }
+      break
+      case 3:
+        
+      break
+      case 4:
+        
+      break
+      case 5:
+        
+      break
+      default:
+        
+      break
+    }
+}  
+      
+      
+      
+      
+  
+
+  if (message.lowercase==="save"){
     reply = {}
     reply = THIS.int.last
     //console.log(reply.reply)
@@ -299,15 +335,43 @@ function GlobalInterpreter(message,THIS){
     reply.stats = THIS.int.last.stats
     return GIrep(reply,THIS,"SAVE");
   }
-  var commands = cmdParser(message.content)
+  //parse commands from lowercase
+  var commands = cmdParser(message.lowercase)
+  //Game
+  
+  
+  
+  
+  
+  
   
   
   reply = {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
-  temp = undefined
+  temp = undefined //remove temp vars
   return GIrep(reply,THIS)
 }
+
+function yesno(msg){
+msg = msg.toLowerCase()
+  switch(msg){
+    case "y":
+     return true
+    case "yes":
+      return true
+    case "no":
+      return false
+    case "n":
+      return false
+    default:
+      return false
+    }
+}
+
+
+
+const grammar = {}
 function cmdParser(message) {
-  grammer.read()
+  //grammer.read()
   let cmdlist = []
   let cmdstrings = []
   //let g = grammar.get("grammer").value()
@@ -318,14 +382,6 @@ function cmdParser(message) {
 
 return {}
 }
-/*
-Incoming: 
-  String text: Button Text 
-  Boolean autoSEND: Will clicking send only the text in. if not add to input.
-  message: Full Message Object
-Outgoing:
-  String response
-*/
 function lineBreak(message){
 if (!message) {
 		message = {};
@@ -336,6 +392,15 @@ if (!message) {
 	}
   return "<br>"
 }
+
+/*
+Incoming: 
+  String text: Button Text 
+  Boolean autoSEND: Will clicking send only the text in. if not add to input.
+  message: Full Message Object
+Outgoing:
+  String response
+*/
 function makeButton(text, autoSEND, message) {
 	var classDat = ""
 	if (!message) {
@@ -495,6 +560,7 @@ class Room {
     this.args = roomData[3];
   }
 }
+  
 //Decode integer flag into an array of booleans
 function decodeFlag(flag) {
   let d = [flag];

@@ -329,6 +329,42 @@ function handleMessage(msg) {
     if (!rep){return}
     log(true, "[DIS] [" + intToRGB(hashCode(message.author.id)) + "] " + rep.reply)
     message.channel.send(rep.reply)
+    let topic = ""
+    
+    if (rep.options) {
+      topic += "__Commands__:\n"
+     for (let i=0;i<rep.options.length;i++){
+     topic += rep.options[i]+"\n"
+     } 
+    } else {
+    topic += "__Commands__:\nN/A\n"
+    }
+    
+    
+    if (rep.inventory) {
+      topic += "__Inventory__:\n"
+     for (let i=0;i<rep.inventory.length;i++){
+     topic += rep.inventory[i]+"\n"
+     } 
+    } else {
+    topic += "__Inventory__:\nEmpty\n"
+    }
+    
+    
+    if (rep.stats) {
+      topic += "__Info__:\n"
+     for (let i=0;i<rep.stats.length;i++){
+     topic += rep.stats[i]+"\n"
+     } 
+    }else {
+    topic += "__Info__:\nNo Info Available\n"
+    }
+    if (topic.length>1024){
+    topic = topic.substring(0,1024)
+    }
+    
+    
+    message.channel.setTopic(topic)
 	} catch (err) {
 		crash(err)
 	};
@@ -403,6 +439,7 @@ function runCommand(message) {
                   channel.overwritePermissions(message.guild.id, { VIEW_CHANNEL: true, SEND_MESSAGES: false }).then(
                     channel.overwritePermissions(role.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true })).catch(console.log)
                     message.member.addRole(role.id)
+                    message.member.addRole("507410318746714125")
                     channel.send("<@"+message.author.id+"> This is your Instance. Start with `play`")
                     message.sessionID = "DISCORD-"+message.author.id
                   message.misc = {}
