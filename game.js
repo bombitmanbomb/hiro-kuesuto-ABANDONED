@@ -244,7 +244,47 @@ function GIrep(reply,THIS,ACTION) {
   if (!ACTION){ ACTION = false;}
  return {"reply":reply,"vars":THIS,action:ACTION}
 }
+/*
+Input 
+["ChestInventory",4,2,11,12,21,22,31,32,41,42,"Monster",3,6,11,12,'13',14,15,"sixteen",21,22,23,24,"Two Five",26,31,32,33,34,35,36]
+["token",# of vars,# of sub vars, data...,"token2",# of vars2,# of sub vars2, data2...]
+  =>
+output
+{
+  ChestInventory:[[11,12],[21,22],[31,32],[41,42]],
+  Monster:[[11,12,13,14,15,16],[21,22,23,24,25,26],[31,32,33,34,35,36]]
+}
+and Vice versa
+Accepts Both Formats and can return each
 
+Able to Manipulate the info. (Add/remove & update everything accordingly)
+
+
+*/
+class DATA {
+  constructor(data){
+      this.raw = data;
+      this.rawType = typeof data
+  }
+  
+  toObject(data) {
+    
+  }
+  toArray(data) {
+  
+  }
+  get array(){
+  return this.arr
+  }
+  get object(){
+    return this.obj
+  }
+  
+    /* Come Chat with us about this: https://discord.gg/8gB475Y
+    
+    */
+   
+}
 
 function GlobalInterpreter(message,THIS){
   if (!message.content){message.content = message.message}
@@ -318,13 +358,7 @@ function GlobalInterpreter(message,THIS){
         
       break
     }
-}  
-      
-      
-      
-      
-  
-
+  }  //END PLAYER CREATION
   if (message.lowercase==="save"){
     reply = {}
     reply = THIS.int.last
@@ -337,7 +371,7 @@ function GlobalInterpreter(message,THIS){
   }
   //parse commands from lowercase
   var commands = cmdParser(message.lowercase)
-  //Game
+  //Game Code
   
   
   
@@ -367,7 +401,18 @@ msg = msg.toLowerCase()
     }
 }
 
-
+function describeRoom(roomData){
+  
+  let room = {}
+  
+  
+  
+  
+  let roomString = "You are standing in a ${room.type} room."
+  
+  
+  return roomString  
+}
 
 const grammar = {}
 function cmdParser(message) {
@@ -482,7 +527,7 @@ class WorldGen {
   }
   init() { //New Game Starting Room Gen
     this.log.write(true, "Creating Level Instance.")
-    var startingRoom = [0, 0, 393216, [3, 4, 2, 0, 1, 1, 1, 2, 1, 3, 1]];
+    var startingRoom = [0, 0, 393216, ["Chest", 4, 2, 0, 1, 1, 1, 2, 1, 3, 1]];
     this.mapData = [startingRoom];
     this.log.write(true, "Starting Room Generated", this.mapData);
     return this.mapData;
@@ -686,3 +731,4 @@ module.exports.randomValueHex = randomValueHex;
 module.exports.getSession = getSession;
 module.exports.createSession = createSession;
 module.exports.saveAll = saveAll
+module.exports.DATA = DATA
