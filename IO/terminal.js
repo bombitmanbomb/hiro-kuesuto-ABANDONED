@@ -59,6 +59,7 @@ function sendMSG(msg) {
   post(msg)
 }
 function encodeHTML(s) {
+  return s
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 function post(msg) {
