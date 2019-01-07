@@ -25,8 +25,14 @@ $(document).ready(function() {
 
 input.keypress(function(a) {
   let txt = a.target.value+a.key
+  txt = txt.toLowerCase()
   if (txt===''){return}
   let commands = txt.split(" ")
+  if (!misc||!txt){return}
+  if (misc[txt]){
+      setupInfo(txt)
+  }
+  
 });
 
 function addMessage(message, isServer) {
@@ -59,12 +65,9 @@ function IC(elem, autoPost) {
   var txt = elem.textContent || elem.innerText;
   if (!autoPost) {
     input.val(input.val() + txt + " ");
-    if (misc[txt]){
+    if (misc[txt.toLowerCase()]){
       setupInfo(txt)
     }
-    
-    
-    
   } else {
     if (input.val!="") {
     txt = input.val()+txt
@@ -73,6 +76,7 @@ function IC(elem, autoPost) {
   }
 }
 function setupInfo(txt){
+  txt = txt.toLowerCase()
 stats.empty()
   if (misc[txt].length>0){
     for (let i = 0; i < misc[txt].length; i++) {
