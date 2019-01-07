@@ -26,7 +26,7 @@ var leaderboardDB
 var glossary
 //var grammar 
 const LevelGridKeys = require('roguelike/level/gridKeys'); //https://github.com/tlhunter/node-roguelike#level-gridKeys
-
+const letters = ["a","b","c","d","e","f","g","h","i","j",'k',"l",'m','n','o','p','q','r','s','t','u','v','w','x','y','z',' ']
 
 
 
@@ -299,7 +299,35 @@ class DATA {
     */
    
 }
-
+function searchIndex(query,reply,message){
+glossary.read()
+    var dat = glossary.get('glossary')
+    .find({ term: query })
+    .value()
+    if (dat){
+      //Index Found
+      console.log("Found")
+      let description = dat.description
+      let re=/\<([^>]+)\>/g
+          description = description.replace(re, x => {
+          let term = x.slice(1, -1);
+            if (term==="br"){return lineBreak(message)}
+            return makeButton(term,false,message)
+          })
+      if (dat.misc.length>0) {
+        reply.options.push(makeButton("Explain",false,message));
+        reply.misc.explain = []
+        for (let i=0;i<dat.misc.length;i++){
+          reply.misc.explain.push(makeButton(dat.misc[i],true,message))
+        }
+      }
+      reply.reply += description
+    } else {
+      if (!query){query=' '}
+      reply.reply += "No Index found for "+makeButton(query,false,message);
+    }
+  return reply
+}
 function GlobalInterpreter(message,THIS){
   if (!message.content){message.content = message.message}
   let reply = {
@@ -310,7 +338,7 @@ function GlobalInterpreter(message,THIS){
   }
   let temp = {}
   message.lowercase = String(message.content).toLowerCase()//lowerCase
-  if (message.lowercase==="play"||message.lowercase=="repeat"){
+  if (message.lowercase==="play"||message.lowercase=="repeat"||message.lowercase=="return"){
     if (!THIS.int.newGame){
       return GIrep(THIS.int.last,THIS) //repeat last message
     } else { 
@@ -325,13 +353,15 @@ function GlobalInterpreter(message,THIS){
   return GIrep(reply,THIS)
   }
   if (message.lowercase.startsWith("explain")){
-    reply.options.push(makeButton("Repeat",true,message))
+    
     let query = message.lowercase.substring(7).trim()
-    console.log("QUERY:",query)
+    //console.log("QUERY:",query)
+    reply = searchIndex(query,reply,message)
     
     
     
     
+    reply.options.push(makeButton("Return",true,message))
     return GIrep(reply,THIS,"EXPLAIN")
   }
   
@@ -344,7 +374,7 @@ function GlobalInterpreter(message,THIS){
       reply.stats = ["Player Creation"]
     if (temp.state.length>15){temp.state = temp.state.slice(15);} else {
     //STEP 1
-      reply.options = ["User input"]
+      //reply.options = ["User input"]
       reply.reply = "What is your name?"
       THIS.state = "playerCreation-1"
       return GIrep(reply,THIS)
@@ -362,7 +392,7 @@ function GlobalInterpreter(message,THIS){
         break
       case 2:
         if (!yesno(message.lowercase)){
-        reply.options = ["User input"]
+        //reply.options = ["User input"]
         reply.reply = "What is your name?"
         THIS.state = "playerCreation-1"
         return GIrep(reply,THIS)
@@ -376,11 +406,11 @@ function GlobalInterpreter(message,THIS){
           reply.options.push(makeButton("Rogue",true,message))
           reply.options.push(makeButton("Ranger",true,message))
           reply.options.push(makeButton("Explain",false,message))
-          reply.misc.Explain = []
-          reply.misc.Explain.push(makeButton("Warrior",true,message));
-          reply.misc.Explain.push(makeButton("Wizard",true,message));
-          reply.misc.Explain.push(makeButton("Rogue",true,message));
-          reply.misc.Explain.push(makeButton("Ranger",true,message));
+          reply.misc.explain = []
+          reply.misc.explain.push(makeButton("Warrior",true,message));
+          reply.misc.explain.push(makeButton("Wizard",true,message));
+          reply.misc.explain.push(makeButton("Rogue",true,message));
+          reply.misc.explain.push(makeButton("Ranger",true,message));
           return GIrep(reply,THIS)
         }
       break
@@ -405,14 +435,10 @@ function GlobalInterpreter(message,THIS){
           reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
           
           reply.reply += lineBreak(message)+lineBreak(message)
-          reply.reply += "The Defenders of Men. Young Warriors are trained from a young age to Slay Beasts and Defend their homeland."+lineBreak(message)+"Many young warriors aspire to join the "+makeButton("Knights of Asla",false,message)+"."+lineBreak(message)
-          reply.reply += "Warriors are Masters of "+makeButton("Sword Skills",false,message)+"."
-        reply.options.push(makeButton("Yes",true,message))
-        reply.options.push(makeButton("No",true,message))
-          reply.options.push(makeButton("Explain",false,message))
-          reply.misc.Explain = []
-          reply.misc.Explain.push(makeButton("Knights of Alsa",true,message))
-          reply.misc.Explain.push(makeButton("Sword Skills",true,message))
+          reply.options.push(makeButton("Yes",true,message))
+          reply.options.push(makeButton("No",true,message))
+          reply = searchIndex("warrior",reply,message)
+          
           THIS.state = "playerCreation-4"
         break
         case "wizard":
@@ -432,7 +458,7 @@ function GlobalInterpreter(message,THIS){
         
           reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
           reply.reply += lineBreak(message)+lineBreak(message)
-          reply.reply += "Class Description"
+          reply = searchIndex("wizard",reply,message)
         reply.options.push(makeButton("Yes",true,message))
         reply.options.push(makeButton("No",true,message))
           THIS.state = "playerCreation-4"
@@ -454,9 +480,10 @@ function GlobalInterpreter(message,THIS){
         
           reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
           reply.reply += lineBreak(message)+lineBreak(message)
-          reply.reply += "Class Description"
-        reply.options.push(makeButton("Yes",true,message))
-        reply.options.push(makeButton("No",true,message))
+          reply.options.push(makeButton("Yes",true,message))
+          reply.options.push(makeButton("No",true,message))
+          reply = searchIndex("rogue",reply,message)
+        
           THIS.state = "playerCreation-4"
         break
         case "ranger":
@@ -476,9 +503,9 @@ function GlobalInterpreter(message,THIS){
         
           reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
           reply.reply += lineBreak(message)+lineBreak(message)
-          reply.reply += "Class Description"
-        reply.options.push(makeButton("Yes",true,message))
-        reply.options.push(makeButton("No",true,message))
+          reply.options.push(makeButton("Yes",true,message))
+          reply.options.push(makeButton("No",true,message))
+          reply = searchIndex("ranger",reply,message)
           THIS.state = "playerCreation-4"
         break
         default:
@@ -489,11 +516,11 @@ function GlobalInterpreter(message,THIS){
           reply.options.push(makeButton("Rogue",true,message))
           reply.options.push(makeButton("Ranger",true,message))
           reply.options.push(makeButton("Explain",false,message))
-          reply.misc.Explain = []
-          reply.misc.Explain.push(makeButton("Warrior",true,message));
-          reply.misc.Explain.push(makeButton("Wizard",true,message));
-          reply.misc.Explain.push(makeButton("Rogue",true,message));
-          reply.misc.Explain.push(makeButton("Ranger",true,message));
+          reply.misc.explain = []
+          reply.misc.explain.push(makeButton("Warrior",true,message));
+          reply.misc.explain.push(makeButton("Wizard",true,message));
+          reply.misc.explain.push(makeButton("Rogue",true,message));
+          reply.misc.explain.push(makeButton("Ranger",true,message));
         break
       }
       return GIrep(reply,THIS)
@@ -519,16 +546,11 @@ function GlobalInterpreter(message,THIS){
       case 5:
         if (message.lowercase==="enter the tower") {
         //enter
-          reply.options.push(makeButton("This",true,message))
-          reply.options.push(makeButton("is",true,message))
-          reply.options.push(makeButton("just",true,message))
-          reply.options.push(makeButton("a",true,message))
-          reply.options.push(makeButton("test",true,message))
-          reply.options.push(makeButton("of",true,message))
-          reply.options.push(makeButton("the",true,message))
-          reply.options.push(makeButton("box",true,message))
-          reply.options.push(makeButton("spacing.",true,message))
-          reply.reply = "test"
+          reply.reply = "WIP"
+          reply.stats = []
+          THIS.state = "play"
+          //Run Starting Room Code
+          
           return GIrep(reply,THIS)
           
           
@@ -538,6 +560,8 @@ function GlobalInterpreter(message,THIS){
         
       break
     }
+      
+      
   }  //END PLAYER CREATION
   if (message.lowercase==="save"){
     reply = {}
@@ -555,15 +579,6 @@ function GlobalInterpreter(message,THIS){
   reply = {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
   temp = undefined //remove temp vars
   console.log(commands)
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   return GIrep(reply,THIS)

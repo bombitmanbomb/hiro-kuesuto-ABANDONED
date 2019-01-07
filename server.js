@@ -190,7 +190,7 @@ app.get('/pipe', function (req, res) {
 		dat: {
 			options: [makeButton("play", true)],
       inventory:[],
-			stats: ["v0.1.8"]
+			stats: ["v0.4.2"]
 		}
 	}));
 });

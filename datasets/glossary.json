@@ -1,40 +1,112 @@
 {
   "glossary": [
     {
-      id:0,
-      term:"warrior",
-      description:"Test of REGEX Mapping of the [Knights of Asla] and of [Sword Skills].<br>Also of Line Breaks and [Sword Skills] again,<br>with the [Knights of Asla] once again.",
-      misc:["Knights of Asla","Sword Skills"]
+      "id": 0,
+      "term": "warrior",
+      "description": "<Warrior>s are the Defenders of Men, High <Strength>, <Defence>, and <Constitution>, They are difficult to overpower.<br><Warrior>s are masters of <Sword Skills>.<br>Many <Warrior>s strive to join the <Knights of Asla>, An order that serves the <Royal Family> in <Capital Name>.<br><br>Subclasses: <Paladin>, <Gladiator>, <Dragoon>, <Brawler>",
+      "misc": [
+        "Strength",
+        "Defence",
+        "Constitution",
+        "Sword Skills",
+        "Knights of Asla",
+        "Royal Family",
+        "Capital",
+        "Paladin",
+        "Gladiator",
+        "Dragoon",
+        "Brawler"
+      ]
     },
     {
-      id:1,
-      term:"wizard",
-      description:"",
-      misc:[]
+      "id": 1,
+      "term": "wizard",
+      "description": "Masters of the <Arcane Arts>, <Wizard>s have High <Wisdom>, <Intelligence>, and <Perception>.",
+      "misc": []
     },
     {
-      id:2,
-      term:"rogue",
-      description:"",
-      misc:[]
+      "id": 2,
+      "term": "rogue",
+      "description": "<Rogue>s use their high <Dexterity>, <Speed>, and <Perception> to to quickly take down unsuspecting enemies.<br>",
+      "misc": []
     },
     {
-      id:3,
-      term:"ranger",
-      description:"",
-      misc:[]
+      "id": 3,
+      "term": "ranger",
+      "description": "Index not Set",
+      "misc": []
     },
     {
-      id:4,
-      term:"knights of asla",
-      description:"",
-      misc:[]
+      "id": 4,
+      "term": "knights of asla",
+      "description": "Index not Set",
+      "misc": []
     },
     {
-      id:0,
-      term:"sword skills",
-      description:"",
-      misc:[]
+      "id": 5,
+      "term": "sword skills",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 6,
+      "term": "health",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 7,
+      "term": "strength",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 8,
+      "term": "constitution",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 9,
+      "term": "defence",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 10,
+      "term": "attack",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 11,
+      "term": "intelligence",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 12,
+      "term": "perception",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 13,
+      "term": "wisdom",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 14,
+      "term": "dexterity",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "id": 15,
+      "term": "speed",
+      "description": "Index not Set",
+      "misc": []
     }
   ]
 }
