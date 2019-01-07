@@ -47,11 +47,12 @@
             overflow-y: auto;
             border: 1px solid #33ff33;
             margin-top: 10px;
-            height: 502px;
-            width: calc(100% - 120px)
+            height: 350px;
+            width: calc(100% - 120px);
         }
         
         #options {
+          flex-grow: 1;
             float: left;
             padding: 5px;
             background: #101010;
@@ -61,15 +62,17 @@
             display: flex;
             flex-wrap: wrap;
             flex-flow: column wrap;
-            align-content: flex-start;
+            align-content: space-around;
+            justify-content: space-evenly;
             margin-top: 5px;
-            height: 50px;
+            height: 60px;
             flex-direction: column;
             width: calc(30% - 10px)
         }
         
         #inventory {
           flex-flow: column wrap;
+          justify-content: space-evenly;
             float: left;
             padding: 5px;
             background: #101010;
@@ -78,14 +81,15 @@
             border: 1px solid #808080;
             display: flex;
             flex-wrap: wrap;
-            align-content: flex-start;
+            align-content: space-around;
             margin-top: 5px;
-            height: 50px;
+            height: 60px;
             flex-direction: column;
             width: calc(30% - 10px);
         }
         
         #gameStats {
+          justify-content: space-evenly;
           flex-flow: column wrap;
             float: left;
             padding: 5px;
@@ -95,9 +99,9 @@
             border: 1px solid #808080;
             display: flex;
             flex-wrap: wrap;
-            align-content: flex-start;
+            align-content: space-around;
             margin-top: 5px;
-            height: 50px;
+            height: 60px;
             width: calc(40% - 16px);
             flex-direction: column;
         }
@@ -108,7 +112,7 @@
             border-radius: 0px;
             border: 0px solid #808080;
             margin-top: 0px;
-            height: 50px;
+            height:60px;
             width: calc(100% - 100px)
         }
         

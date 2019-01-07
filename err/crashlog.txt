@@ -1,5 +1,4 @@
 [MASTER LOG]
-[Sat Dec 22 2018 12:44:27 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
-[Sat Dec 22 2018 12:44:28 GMT+0000 (UTC)] [SERVER] Bot Loaded.
-[Sat Dec 22 2018 12:44:28 GMT+0000 (UTC)] [SERVER] Engine Loaded.
-[Sat Dec 22 2018 12:44:28 GMT+0000 (UTC)] [SERVER] Instances Loaded.
+[Mon Jan 07 2019 07:20:00 GMT+0000 (UTC)] [SERVER] Connected to Dataset.
+[Mon Jan 07 2019 07:20:00 GMT+0000 (UTC)] [SERVER] Bot Loaded.
+[Mon Jan 07 2019 07:20:00 GMT+0000 (UTC)] [SERVER] Engine Loaded.
