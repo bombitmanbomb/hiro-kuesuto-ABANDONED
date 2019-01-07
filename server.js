@@ -149,7 +149,12 @@ app.get("/IO/terminal.js", (request, response) => {
 });
 
 app.post('/pipe', function (req, res) {
-	var id = req.ip
+	let ref = req.get('Referrer')
+  if (ref!=="https://sky-tower.glitch.me/play"){
+    res.sendStatus(401)
+    return
+  }
+  var id = req.ip
 	let dat = req.body
 	dat.identifier = intToRGB(hashCode(id))
 	//log(true, "[WEB] [" + dat.identifier + "] " + dat.message)
@@ -163,11 +168,17 @@ app.post('/pipe', function (req, res) {
 		dat: {
       inventory: response.inventory,
 			options: response.options,
-			stats: response.stats
+			stats: response.stats,
+      misc:response.misc
 		}
 	}));
 });
 app.get('/pipe', function (req, res) {
+  let ref = req.get('Referrer')
+  if (ref!=="https://sky-tower.glitch.me/play"){
+    res.sendStatus(401)
+    return
+  }
 	var id = req.ip
 	let dat = req.body
 
@@ -436,7 +447,7 @@ function runCommand(message) {
               .then((channel)=>{
                 channel.setParent("507410775841832963")
                 .then(()=>{
-                  channel.overwritePermissions(message.guild.id, { VIEW_CHANNEL: true, SEND_MESSAGES: false }).then(
+                  channel.overwritePermissions(message.guild.id, { VIEW_CHANNEL: false, SEND_MESSAGES: false }).then(
                     channel.overwritePermissions(role.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true })).catch(console.log)
                     message.member.addRole(role.id)
                     message.member.addRole("507410318746714125")

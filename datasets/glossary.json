@@ -1,0 +1,40 @@
+{
+  "glossary": [
+    {
+      id:0,
+      term:"warrior",
+      description:"Test of REGEX Mapping of the [Knights of Asla] and of [Sword Skills].<br>Also of Line Breaks and [Sword Skills] again,<br>with the [Knights of Asla] once again.",
+      misc:["Knights of Asla","Sword Skills"]
+    },
+    {
+      id:1,
+      term:"wizard",
+      description:"",
+      misc:[]
+    },
+    {
+      id:2,
+      term:"rogue",
+      description:"",
+      misc:[]
+    },
+    {
+      id:3,
+      term:"ranger",
+      description:"",
+      misc:[]
+    },
+    {
+      id:4,
+      term:"knights of asla",
+      description:"",
+      misc:[]
+    },
+    {
+      id:0,
+      term:"sword skills",
+      description:"",
+      misc:[]
+    }
+  ]
+}

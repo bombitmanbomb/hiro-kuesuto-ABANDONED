@@ -23,6 +23,7 @@ var client
 var fs = require('fs');
 var leaderboard
 var leaderboardDB
+var glossary
 //var grammar 
 const LevelGridKeys = require('roguelike/level/gridKeys'); //https://github.com/tlhunter/node-roguelike#level-gridKeys
 
@@ -68,6 +69,7 @@ const init = async (Client) => {
   entitydb = low(new FileSync("./datasets/entities.json"));
   instancedb = low(new FileSync("./datasets/instance.json"));
   leaderboardDB = low(new FileSync("./datasets/leaderboards.json"));
+  glossary = low(new FileSync("./datasets/glossary.json"));
   //grammar = low(new FileSync("./datasets/grammar.json"));
   instancedb.defaults({
     'sessions': []
@@ -80,6 +82,9 @@ const init = async (Client) => {
   }).write();
   leaderboardDB.defaults({
     'leaderboard': []
+  }).write();
+  glossary.defaults({
+    'glossary': []
   }).write();
   /*
   grammar.defaults({
@@ -235,7 +240,9 @@ class Game {
     for (var property in repDat.vars) {
         this[property] = repDat.vars[property];
     }
+    if (repDat.action!=="EXPLAIN"){
     this.int.last = repDat.reply
+    }
     if (repDat.action=="SAVE"){this.save(undefined,this.int.last)}
     return repDat.reply
   }
@@ -261,6 +268,13 @@ Able to Manipulate the info. (Add/remove & update everything accordingly)
 
 
 */
+class OPTIONS {
+  constructor() {
+  
+  }
+}
+
+
 class DATA {
   constructor(data){
       this.raw = data;
@@ -291,7 +305,8 @@ function GlobalInterpreter(message,THIS){
   let reply = {
     reply:"",
     options:[],
-    stats:[]
+    stats:[],
+    misc:{}
   }
   let temp = {}
   message.lowercase = String(message.content).toLowerCase()//lowerCase
@@ -309,6 +324,19 @@ function GlobalInterpreter(message,THIS){
     reply.options = [makeButton("play", true, message)]
   return GIrep(reply,THIS)
   }
+  if (message.lowercase.startsWith("explain")){
+    reply.options.push(makeButton("Repeat",true,message))
+    let query = message.lowercase.substring(7).trim()
+    console.log("QUERY:",query)
+    
+    
+    
+    
+    return GIrep(reply,THIS,"EXPLAIN")
+  }
+  
+  
+  
   //begin game
   //Player Creation
     if (THIS.state.startsWith("playerCreat")){
@@ -325,7 +353,8 @@ function GlobalInterpreter(message,THIS){
     switch (Number(temp.state)) {
       case 1:                  
         THIS.int.tempName = message.content
-        reply.reply = "Is the name "+makeButton(message.content,false,message)+" correct? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
+        if (THIS.int.tempName.toLowerCase()===THIS.int.tempName){THIS.int.tempName=cfl(THIS.int.tempName)}
+        reply.reply = "Is the name "+makeButton(THIS.int.tempName,false,message)+" correct? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
         reply.options.push(makeButton("Yes",true,message))
         reply.options.push(makeButton("No",true,message))
         THIS.state = "playerCreation-2"
@@ -339,20 +368,171 @@ function GlobalInterpreter(message,THIS){
         return GIrep(reply,THIS)
         } else {
           THIS.Player.name = THIS.int.tempName
-          THIS.int.tempName = null
-          reply.reply = "You will now be known as "+makeButton(THIS.Player.name,false,message)+"."+lineBreak(message)+"Select your Class:"+lineBreak(message)+"TODO"    
+          THIS.int.tempName = undefined
+          reply.reply = "You will now be known as "+makeButton(THIS.Player.name,false,message)+"."+lineBreak(message)+"Select your Class:"+lineBreak(message)+lineBreak(message)+makeButton("Warrior",true,message)+lineBreak(message)+makeButton("Wizard",true,message)+lineBreak(message)+makeButton("Rogue",true,message)+lineBreak(message)+makeButton("Ranger",true,message)
           THIS.state = "playerCreation-3"
+          reply.options.push(makeButton("Warrior",true,message))
+          reply.options.push(makeButton("Wizard",true,message))
+          reply.options.push(makeButton("Rogue",true,message))
+          reply.options.push(makeButton("Ranger",true,message))
+          reply.options.push(makeButton("Explain",false,message))
+          reply.misc.Explain = []
+          reply.misc.Explain.push(makeButton("Warrior",true,message));
+          reply.misc.Explain.push(makeButton("Wizard",true,message));
+          reply.misc.Explain.push(makeButton("Rogue",true,message));
+          reply.misc.Explain.push(makeButton("Ranger",true,message));
           return GIrep(reply,THIS)
         }
       break
       case 3:
+      THIS.int.tempClass = message.lowercase
+      switch(message.lowercase){
+        case "warrior":
+          THIS.Player.bag = {};
+          THIS.Player.equipped = -1;
+          THIS.Player.stats.HPMax = 200;
+          THIS.Player.stats.HP = 200;
+          THIS.Player.stats.Str = 10;
+          THIS.Player.stats.Con = 7;
+          THIS.Player.stats.Def = 14;
+          THIS.Player.stats.Atk = 10;
+          THIS.Player.stats.Int = 3;
+          THIS.Player.stats.Per = 6;
+          THIS.Player.stats.Wis = 3;
+          THIS.Player.stats.Dex = 5;
+          THIS.Player.stats.Spd = 4;
+          THIS.Player.log.write(true,"Class set to Warrior",THIS.Player)
+          reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
+          
+          reply.reply += lineBreak(message)+lineBreak(message)
+          reply.reply += "The Defenders of Men. Young Warriors are trained from a young age to Slay Beasts and Defend their homeland."+lineBreak(message)+"Many young warriors aspire to join the "+makeButton("Knights of Asla",false,message)+"."+lineBreak(message)
+          reply.reply += "Warriors are Masters of "+makeButton("Sword Skills",false,message)+"."
+        reply.options.push(makeButton("Yes",true,message))
+        reply.options.push(makeButton("No",true,message))
+          reply.options.push(makeButton("Explain",false,message))
+          reply.misc.Explain = []
+          reply.misc.Explain.push(makeButton("Knights of Alsa",true,message))
+          reply.misc.Explain.push(makeButton("Sword Skills",true,message))
+          THIS.state = "playerCreation-4"
+        break
+        case "wizard":
+          THIS.Player.bag = {};
+          THIS.Player.equipped = -1;
+          THIS.Player.stats.HPMax = 100;
+          THIS.Player.stats.HP = 100;
+          THIS.Player.stats.Str = 150;
+          THIS.Player.stats.Con = 130;
+          THIS.Player.stats.Def = 140;
+          THIS.Player.stats.Atk = 110;
+          THIS.Player.stats.Int = 70;
+          THIS.Player.stats.Per = 60
+          THIS.Player.stats.Wis = 70;
+          THIS.Player.stats.Dex = 100;
+          THIS.Player.stats.Spd = 90;
         
+          reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
+          reply.reply += lineBreak(message)+lineBreak(message)
+          reply.reply += "Class Description"
+        reply.options.push(makeButton("Yes",true,message))
+        reply.options.push(makeButton("No",true,message))
+          THIS.state = "playerCreation-4"
+        break
+        case "rogue":
+          THIS.Player.bag = {};
+          THIS.Player.equipped = -1;
+          THIS.Player.stats.HPMax = 150;
+          THIS.Player.stats.HP = 200;
+          THIS.Player.stats.Str = 150;
+          THIS.Player.stats.Con = 130;
+          THIS.Player.stats.Def = 140;
+          THIS.Player.stats.Atk = 110;
+          THIS.Player.stats.Int = 70;
+          THIS.Player.stats.Per = 60
+          THIS.Player.stats.Wis = 70;
+          THIS.Player.stats.Dex = 100;
+          THIS.Player.stats.Spd = 90;
+        
+          reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
+          reply.reply += lineBreak(message)+lineBreak(message)
+          reply.reply += "Class Description"
+        reply.options.push(makeButton("Yes",true,message))
+        reply.options.push(makeButton("No",true,message))
+          THIS.state = "playerCreation-4"
+        break
+        case "ranger":
+          THIS.Player.bag = {};
+          THIS.Player.equipped = -1;
+          THIS.Player.stats.HPMax = 150;
+          THIS.Player.stats.HP = 200;
+          THIS.Player.stats.Str = 150;
+          THIS.Player.stats.Con = 130;
+          THIS.Player.stats.Def = 140;
+          THIS.Player.stats.Atk = 110;
+          THIS.Player.stats.Int = 70;
+          THIS.Player.stats.Per = 60
+          THIS.Player.stats.Wis = 70;
+          THIS.Player.stats.Dex = 100;
+          THIS.Player.stats.Spd = 90;
+        
+          reply.reply = "Play as "+makeButton(cfl(message.content),false,message)+"? ("+makeButton("Yes",true,message)+"/"+makeButton("No",true,message)+")"
+          reply.reply += lineBreak(message)+lineBreak(message)
+          reply.reply += "Class Description"
+        reply.options.push(makeButton("Yes",true,message))
+        reply.options.push(makeButton("No",true,message))
+          THIS.state = "playerCreation-4"
+        break
+        default:
+          reply.reply = "Invalid Class."+lineBreak(message)+"Select your Class:"+lineBreak(message)+lineBreak(message)+makeButton("Warrior",true,message)+lineBreak(message)+makeButton("Wizard",true,message)+lineBreak(message)+makeButton("Rogue",true,message)+lineBreak(message)+makeButton("Ranger",true,message)
+          THIS.state = "playerCreation-3"
+          reply.options.push(makeButton("Warrior",true,message))
+          reply.options.push(makeButton("Wizard",true,message))
+          reply.options.push(makeButton("Rogue",true,message))
+          reply.options.push(makeButton("Ranger",true,message))
+          reply.options.push(makeButton("Explain",false,message))
+          reply.misc.Explain = []
+          reply.misc.Explain.push(makeButton("Warrior",true,message));
+          reply.misc.Explain.push(makeButton("Wizard",true,message));
+          reply.misc.Explain.push(makeButton("Rogue",true,message));
+          reply.misc.Explain.push(makeButton("Ranger",true,message));
+        break
+      }
+      return GIrep(reply,THIS)
       break
       case 4:
-        
+      if (!yesno(message.lowercase)){
+        reply.reply = "Select your Class:"+lineBreak(message)+lineBreak(message)+makeButton("Warrior",true,message)+lineBreak(message)+makeButton("Wizard",true,message)+lineBreak(message)+makeButton("Rogue",true,message)+lineBreak(message)+makeButton("Ranger",true,message)
+          THIS.state = "playerCreation-3"
+          reply.options.push(makeButton("Warrior",true,message))
+          reply.options.push(makeButton("Wizard",true,message))
+          reply.options.push(makeButton("Rogue",true,message))
+          reply.options.push(makeButton("Ranger",true,message))
+        return GIrep(reply,THIS)
+        } else {
+          THIS.Player.class = THIS.int.tempClass
+          THIS.int.tempClass = undefined;
+          reply.reply = "You Are playing as a "+makeButton(cfl(THIS.Player.class),false,message)+". You may now "+makeButton("Enter the Tower",true,message)
+          THIS.state = "playerCreation-5"
+          reply.options.push(makeButton("Enter the Tower",true,message))
+          return GIrep(reply,THIS)
+        }  
       break
       case 5:
-        
+        if (message.lowercase==="enter the tower") {
+        //enter
+          reply.options.push(makeButton("This",true,message))
+          reply.options.push(makeButton("is",true,message))
+          reply.options.push(makeButton("just",true,message))
+          reply.options.push(makeButton("a",true,message))
+          reply.options.push(makeButton("test",true,message))
+          reply.options.push(makeButton("of",true,message))
+          reply.options.push(makeButton("the",true,message))
+          reply.options.push(makeButton("box",true,message))
+          reply.options.push(makeButton("spacing.",true,message))
+          reply.reply = "test"
+          return GIrep(reply,THIS)
+          
+          
+        }
       break
       default:
         
@@ -370,32 +550,33 @@ function GlobalInterpreter(message,THIS){
     return GIrep(reply,THIS,"SAVE");
   }
   //parse commands from lowercase
-  var commands = cmdParser(message.lowercase)
+  var commands = cmdParser(message)
   //Game Code
-  
-  
-  
-  
-  
-  
-  
-  
   reply = {reply:"Interpreter Offline for Maintinance.",options:["OFFLINE"],inventory:["OFFLINE"],"stats":["OFFLINE"]}
   temp = undefined //remove temp vars
+  console.log(commands)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   return GIrep(reply,THIS)
 }
 
 function yesno(msg){
-msg = msg.toLowerCase()
+
   switch(msg){
     case "y":
      return true
     case "yes":
       return true
-    case "no":
-      return false
-    case "n":
-      return false
+    
     default:
       return false
     }
@@ -417,6 +598,7 @@ function describeRoom(roomData){
 const grammar = {}
 function cmdParser(message) {
   //grammer.read()
+  
   let cmdlist = []
   let cmdstrings = []
   //let g = grammar.get("grammer").value()
@@ -576,7 +758,31 @@ class Player {
       this.stats.Def = 110;
       this.stats.Atk = 130;
       this.stats.Int = 70;
+      this.stats.Per = 60;
       this.stats.Spd = 100;
+      this.stats.Dex = 100;
+      this.stats.Wis = 100;
+      this.skills = []
+      //weapon prof
+      this.prof = {}
+      this.prof.weapon = {}
+      this.prof.weapon.Sword = 0;
+      this.prof.weapon.Bow = 0;
+      this.prof.weapon.Spear = 0;
+      this.prof.weapon.DSword = 0;
+      this.prof.weapon.Greatsword = 0;
+      this.prof.weapon.LongSword = 0;
+      this.prof.weapon.Mace = 0;
+      this.prof.weapon.type = {}
+      this.prof.weapon.type.Blunt = 0;
+      this.prof.weapon.type.Blade = 0;
+      this.prof.weapon.type.Piercing = 0;
+      //magic prof
+      this.prof.magic = {}
+      this.prof.magic.type = {}
+      
+      
+      
       //modify stats
       this.log.write(true, "Character Stats", this.stats);
     } else {
@@ -717,6 +923,11 @@ function intToRGB(i) {
   var c = (i & 0x00FFFFFF).toString(16).toUpperCase();
   return "00000".substring(0, 6 - c.length) + c;
 }
+function cfl(string) {
+  string = string.toLowerCase()
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 module.exports.eventListener = eventListener;
 module.exports.init = init;
 module.exports.getRunningGames = getRunningGames;

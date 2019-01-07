@@ -7,6 +7,7 @@ var stats = $('#gameStats');
 const Http = new XMLHttpRequest();
 const url = "/pipe"
 var sessionID = false;
+var misc = {}
 $(document).ready(function() {
   console.log("ready!");
   $.get("/pipe", {
@@ -16,9 +17,16 @@ $(document).ready(function() {
     console.log(data)
     let dat = JSON.parse(data)
     setDisplay(dat)
-  }).fail(function() {
+  }).fail(function(error) {
+    console.log(error)
     addMessage("A Connection Error has Occured", true)
   });
+});
+
+input.keypress(function(a) {
+  let txt = a.target.value+a.key
+  if (txt===''){return}
+  let commands = txt.split(" ")
 });
 
 function addMessage(message, isServer) {
@@ -34,7 +42,12 @@ function addMessage(message, isServer) {
     element.removeChild(element.getElementsByTagName('br')[0]);
   }
 }
-
+class something {
+  constructor(){
+  
+  }
+  
+}
 function goToLog() {
   window.location.href = '/log';
 }
@@ -46,11 +59,27 @@ function IC(elem, autoPost) {
   var txt = elem.textContent || elem.innerText;
   if (!autoPost) {
     input.val(input.val() + txt + " ");
+    if (misc[txt]){
+      setupInfo(txt)
+    }
+    
+    
+    
   } else {
+    if (input.val!="") {
+    txt = input.val()+txt
+    }
     sendMSG(txt)
   }
 }
+function setupInfo(txt){
+stats.empty()
+  if (misc[txt].length>0){
+    for (let i = 0; i < misc[txt].length; i++) {
+      stats.append(misc[txt][i])
+    } } else {stats.append("No Info Available")}
 
+}
 function sendMSG(msg) {
   msg = encodeHTML(msg)
   msg = msg.trim()
@@ -59,7 +88,7 @@ function sendMSG(msg) {
   post(msg)
 }
 function encodeHTML(s) {
-  return s
+  //return s
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 function post(msg) {
@@ -89,6 +118,7 @@ function setDisplay(dat) {
   inventory.empty()
   stats.empty()
   addMessage(dat.message, true)
+  misc = dat.dat.misc
   if (!dat.dat) {
     return
   }
