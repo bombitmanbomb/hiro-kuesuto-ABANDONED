@@ -356,8 +356,9 @@ function GlobalInterpreter(message,THIS){
     
     let query = message.lowercase.substring(7).trim()
     //console.log("QUERY:",query)
-    reply = searchIndex(query,reply,message)
     
+    reply = searchIndex(query,reply,message)
+    THIS.log.write(true,"[Glossary] query="+query)
     
     
     
@@ -388,7 +389,7 @@ function GlobalInterpreter(message,THIS){
         reply.options.push(makeButton("Yes",true,message))
         reply.options.push(makeButton("No",true,message))
         THIS.state = "playerCreation-2"
-        return GIrep(reply,THIS)
+        return GIrep(reply,THIS);
         break
       case 2:
         if (!yesno(message.lowercase)){
@@ -648,16 +649,21 @@ function makeButton(text, autoSEND, message) {
 	if (!message) {
 		message = {};
 		message.isWEB = true
+    message.isNeos = false
 	}
+  
 	if (!autoSEND) {
 		autoSEND = false
 	} else {
 		classDat = "class='autoSend' "
 	}
+  if (message.isNeos){
+    return "<color=#00cc00>"+text+"</color>"
+  }
 	if (!message.isWEB) {
-		return "`"+text+"`"
+		return text
 	}
-	return "<button " + classDat + "onclick='IC(this," + autoSEND + ");'>" + text + "</button>" //IC() is in terminal.js
+	return "<button " + classDat + "onclick='IC(this," + autoSEND + ");'>" + text + "</button>"
 }
 /* class World
   //constructor()

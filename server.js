@@ -41,7 +41,9 @@ const {
 	Client
 } = require("discord.js");
 const client = new Client({
-	disableEveryone: true
+	disableEveryone: true,
+  messageCacheLifetime:3600,
+  messageSweepInterval:3600
 });
 client.login(process.env.SECRET);
 const game = require("./game.js"); //Game Module
@@ -132,6 +134,9 @@ app.get("/animate.css", (request, response) => {
 app.get("/crt.css", (request, response) => {
 	response.sendFile(path.join(__dirname + '/_css/crt.css'));
 });
+app.get("/manifest.json", (request, response) => {
+	response.sendFile(path.join(__dirname + '/IO/manifest.json'));
+});
 app.get("/", (request, response) => {
 	response.sendFile(path.join(__dirname + '/IO/index.html'));
 });
@@ -150,7 +155,8 @@ app.get("/IO/terminal.js", (request, response) => {
 
 app.post('/pipe', function (req, res) {
 	let ref = req.get('Referrer')
-  if (ref!=="https://sky-tower.glitch.me/play"){
+  
+  if (ref!=="https://sky-tower.glitch.me/play"&&ref!=="http://sky-tower.glitch.me/play"){
     res.sendStatus(401)
     return
   }
@@ -173,9 +179,38 @@ app.post('/pipe', function (req, res) {
 		}
 	}));
 });
+
+app.get('/neospipe', function (req, res) {
+	var query = req.query
+  let ref = req.get('Referrer')
+	var id = query.user
+	let dat = {content:query.body}
+  console.log(query)
+	dat.identifier = intToRGB(hashCode(id))
+	//log(true, "[WEB] [" + dat.identifier + "] " + dat.message)
+	//parse and handle
+	dat.isWEB = true
+	let response = handleWEB(dat, id,"NEOS")
+	log(true, "[WEB] [" + dat.identifier + "] " + response.reply)
+	res.send(response.reply);
+});
+
+app.get('/neosinit', function (req, res) {
+ var query = req.query
+  let ref = req.get('Referrer')
+	var id = query.user
+	let dat = query.body
+
+	log(true, "[WEB] [P_CON] [" + intToRGB(hashCode(id)) + "] $connect")
+	log(true, "[WEB] [P_CON] [" + intToRGB(hashCode(id)) + "] User Connection Established")
+	res.send("Connection to Server Established. " + makeButton("play", true,{neos:true}));
+});
+
+
 app.get('/pipe', function (req, res) {
   let ref = req.get('Referrer')
-  if (ref!=="https://sky-tower.glitch.me/play"){
+  console.log("ping");
+  if (ref!=="https://sky-tower.glitch.me/play"&&ref!=="http://sky-tower.glitch.me/play"){
     res.sendStatus(401)
     return
   }
@@ -259,12 +294,17 @@ function makeButton(text, autoSEND, message) {
 	if (!message) {
 		message = {};
 		message.isWEB = true
+    message.neos = false
 	}
+  
 	if (!autoSEND) {
 		autoSEND = false
 	} else {
 		classDat = "class='autoSend' "
 	}
+  if (message.neos){
+    return "<color=#00cc00>"+text+"</color>"
+  }
 	if (!message.isWEB) {
 		return text
 	}
@@ -274,15 +314,18 @@ function makeButton(text, autoSEND, message) {
 
 var WEB = {}
 
-function handleWEB(msg, ipstring) {
+function handleWEB(msg, ipstring, NEOS) {
   console.log(msg)
-	var id = "WEB-" + intToRGB(hashCode(ipstring))
-  msg.sessionID = "WEB-"+intToRGB(hashCode(ipstring))
+  
+  if (!NEOS){NEOS = "WEB"}
+	var id = NEOS + intToRGB(hashCode(ipstring))
+  msg.sessionID = NEOS+intToRGB(hashCode(ipstring))
   msg.misc = {}
   msg.misc.reply = false
   msg.author = {}
   msg.author.id = ipstring
-  let myGame = game.getSession("WEB-"+intToRGB(hashCode(ipstring)));
+  msg.isNeos = (NEOS==="NEOS")
+  let myGame = game.getSession(NEOS+intToRGB(hashCode(ipstring)));
         if (myGame===undefined){game.createSession(msg)};
   var rep = {}
 	rep.reply = 'The server could not handle your request at this time. <button class="help" onclick="goToLog()">0xF980</button>'
@@ -295,8 +338,8 @@ function handleWEB(msg, ipstring) {
 		return "An Unhandled Error has Occured (No_IP)"
 	}
   msg.author = {id:msg.identifier,name:""}
-  msg.sessionID = "WEB-"+msg.identifier
-	rep = game.interperator(msg)
+  msg.sessionID = NEOS+msg.identifier
+	rep = game.interperator(msg,NEOS==="NEOS")
 
 
 	//log(true,"")
@@ -306,6 +349,7 @@ function handleWEB(msg, ipstring) {
 function handleMessage(msg) {
 	try {
 		var message = msg;
+    message.isNeos = false
 		if (message.isWEB) {
 			return
 		}
