@@ -3,7 +3,7 @@
     {
       "id": 0,
       "term": "warrior",
-      "description": "<Warrior>s are the Defenders of Men, High <Strength>, <Defence>, and <Constitution>, They are difficult to overpower.<br><Warrior>s are masters of <Sword Skills>.<br>Many <Warrior>s strive to join the <Knights of Asla>, An order that serves the <Royal Family> in <Capital Name>.<br><br>Subclasses: <Paladin>, <Gladiator>, <Dragoon>, <Brawler>",
+      "description": "Warriors are the Defenders of Men, High <Strength>, <Defence>, and <Constitution>, They are difficult to overpower.<br>Warriors are masters of <Sword Skills>.<br>Many Warriors strive to join the <Knights of Asla>, An order that serves the <Royal Family> in <Capital Name>.<br><br>Subclasses: <Paladin>, <Gladiator>, <Dragoon>, <Brawler>",
       "misc": [
         "Strength",
         "Defence",
@@ -19,91 +19,101 @@
       ]
     },
     {
-      "id": 1,
+      "term": "capital",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "term": "paladin",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "term": "gladiator",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "term": "brawler",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
+      "term": "dragoon",
+      "description": "Index not Set",
+      "misc": []
+    },
+    {
       "term": "wizard",
-      "description": "Masters of the <Arcane Arts>, <Wizard>s have High <Wisdom>, <Intelligence>, and <Perception>.",
+      "description": "Masters of the <Arcane Arts>, Wizards have High <Wisdom>, <Intelligence>, and <Perception>.",
       "misc": []
     },
     {
-      "id": 2,
       "term": "rogue",
-      "description": "<Rogue>s use their high <Dexterity>, <Speed>, and <Perception> to to quickly take down unsuspecting enemies.<br>",
+      "description": "Rogues use their high <Dexterity>, <Speed>, and <Perception> to to quickly take down unsuspecting enemies.<br>",
       "misc": []
     },
     {
-      "id": 3,
       "term": "ranger",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 4,
       "term": "knights of asla",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 5,
       "term": "sword skills",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 6,
       "term": "health",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 7,
       "term": "strength",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 8,
       "term": "constitution",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 9,
       "term": "defence",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 10,
       "term": "attack",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 11,
       "term": "intelligence",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 12,
       "term": "perception",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 13,
       "term": "wisdom",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 14,
       "term": "dexterity",
       "description": "Index not Set",
       "misc": []
     },
     {
-      "id": 15,
       "term": "speed",
       "description": "Index not Set",
       "misc": []

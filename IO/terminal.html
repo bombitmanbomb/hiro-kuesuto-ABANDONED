@@ -2,13 +2,29 @@
 <html lang="en" class="animated fadeIn crt" oncontextmenu="return false;">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.4, maximum-scale=1.0, user-scalable=no" />
 
     <link rel="stylesheet" href="animate.css">
     <link rel="stylesheet" href="crt.css">
+    <link rel="manifest" href="manifest.json">
     <meta charset="utf-8">
     <title>TTA</title>
     <style>
-        
+            #warning-message { display: none; }
+
+            @media only screen and (orientation:portrait){
+
+        #wrapper { display:none; }
+
+        #warning-message { display:block; font-size: 32px;}
+      
+          }
+
+          @media only screen and (orientation:landscape){
+
+            #warning-message { display:none; }
+  
+    }
         * {
             font-family: tahoma;
             font-size: 12px;
@@ -20,7 +36,6 @@
             line-height: 18px;
             word-wrap: normal;
         }
-        
         div {
             width: calc(100% - 100px);
             margin-left: auto;
@@ -224,9 +239,16 @@
 </head>
 
 <body text="#33FF33" bgcolor="#101010">
-    <a href="/">[QUIT]</a>
+    <a href="/">[QUIT]</a>  
     <button onclick="toggleMusic()">[TOGGLE MUSIC]</button>
+  
     <br>
+     <div id="warning-message">
+
+         Rotate your phone Sideways.
+
+     </div>
+    <div id="wrapper">
     <div id="content">
         <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>        <p></p>        <br>
     </div>
@@ -244,7 +266,7 @@
 
         </div>
     </div>
-
+  </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
     </script>
     <script src="/IO/terminal.js"></script>
