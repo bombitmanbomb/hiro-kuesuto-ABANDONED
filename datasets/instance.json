@@ -1,3 +1,900 @@
 {
-  "sessions": []
+  "sessions": [
+    {
+      "state": "play",
+      "ended": false,
+      "sessionID": "WEB5B0BCC",
+      "userID": "73.129.46.143",
+      "replyChannel": false,
+      "log": {
+        "module": "Game",
+        "session": "WEB5B0BCC"
+      },
+      "int": {
+        "last": {
+          "reply": "Session Saved.<br>Session Saved.<br>Interpreter Offline for Maintinance.",
+          "options": [
+            "OFFLINE"
+          ],
+          "inventory": [
+            "OFFLINE"
+          ],
+          "stats": [
+            "OFFLINE"
+          ],
+          "vars": null
+        },
+        "newGame": false
+      },
+      "World": {
+        "log": {
+          "module": "WorldHandler",
+          "session": "WEB5B0BCC"
+        },
+        "gen": {
+          "temp": {},
+          "log": {
+            "module": "WorldGen",
+            "session": "WEB5B0BCC"
+          },
+          "seed": "53aef506d70dcc58bdc4d3acc98a53f357284ae1174942cafb572a7b8bb4326551cde69c5b838142ac9520a4a2a90b5895c7d9e7eb6f1143b8eb635db6644796",
+          "floor": 0,
+          "mapData": [
+            [
+              0,
+              0,
+              393216,
+              [
+                "Chest",
+                4,
+                2,
+                0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                3,
+                1
+              ]
+            ]
+          ]
+        },
+        "time": 0,
+        "map": [
+          [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ]
+        ],
+        "Room": {
+          "posX": [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ],
+          "flags": [
+            null
+          ]
+        }
+      },
+      "Player": {
+        "log": {
+          "module": "PlayerHandler",
+          "session": "WEB5B0BCC"
+        },
+        "score": 0,
+        "posX": 0,
+        "posY": 0,
+        "stats": {
+          "level": 1,
+          "exp": 0,
+          "HPMax": 200,
+          "HP": 200,
+          "Str": 10,
+          "Con": 7,
+          "Def": 14,
+          "Atk": 10,
+          "Int": 3,
+          "Per": 6,
+          "Spd": 4,
+          "Dex": 5,
+          "Wis": 3
+        },
+        "floor": 0,
+        "bag": {},
+        "equipped": -1,
+        "skills": [],
+        "prof": {
+          "weapon": {
+            "Sword": 0,
+            "Bow": 0,
+            "Spear": 0,
+            "DSword": 0,
+            "Greatsword": 0,
+            "LongSword": 0,
+            "Mace": 0,
+            "type": {
+              "Blunt": 0,
+              "Blade": 0,
+              "Piercing": 0
+            }
+          },
+          "magic": {
+            "type": {}
+          }
+        },
+        "name": "Ethan",
+        "class": "warrior"
+      }
+    },
+    {
+      "state": "setup",
+      "ended": false,
+      "sessionID": "WEBF68434",
+      "userID": "118.136.33.255",
+      "replyChannel": false,
+      "log": {
+        "module": "Game",
+        "session": "WEBF68434"
+      },
+      "int": {
+        "last": {
+          "reply": "",
+          "options": [],
+          "inventory": [],
+          "stats": [],
+          "vars": null,
+          "ignore": false
+        },
+        "newGame": true
+      },
+      "World": {
+        "log": {
+          "module": "WorldHandler",
+          "session": "WEBF68434"
+        },
+        "gen": {
+          "temp": {},
+          "log": {
+            "module": "WorldGen",
+            "session": "WEBF68434"
+          },
+          "seed": "d795df3c0d39183047952b0e7c9cb63433deb80f24537f0d4ba9ff7bc68d049ff1baf035ec51eb248fa5a9218425d68e7d66eb61838231a119df639b25ac9ac7",
+          "floor": 0,
+          "mapData": [
+            [
+              0,
+              0,
+              393216,
+              [
+                "Chest",
+                4,
+                2,
+                0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                3,
+                1
+              ]
+            ]
+          ]
+        },
+        "time": 0,
+        "map": [
+          [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ]
+        ],
+        "Room": {
+          "posX": [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ],
+          "flags": [
+            null
+          ]
+        }
+      },
+      "Player": {
+        "log": {
+          "module": "PlayerHandler",
+          "session": "WEBF68434"
+        },
+        "score": 0,
+        "posX": 0,
+        "posY": 0,
+        "stats": {
+          "level": 1,
+          "exp": 0,
+          "HPMax": 100,
+          "HP": 100,
+          "Str": 150,
+          "Con": 130,
+          "Def": 110,
+          "Atk": 130,
+          "Int": 70,
+          "Per": 60,
+          "Spd": 100,
+          "Dex": 100,
+          "Wis": 100
+        },
+        "floor": 0,
+        "bag": [],
+        "equipped": -1,
+        "skills": [],
+        "prof": {
+          "weapon": {
+            "Sword": 0,
+            "Bow": 0,
+            "Spear": 0,
+            "DSword": 0,
+            "Greatsword": 0,
+            "LongSword": 0,
+            "Mace": 0,
+            "type": {
+              "Blunt": 0,
+              "Blade": 0,
+              "Piercing": 0
+            }
+          },
+          "magic": {
+            "type": {}
+          }
+        }
+      }
+    },
+    {
+      "state": "setup",
+      "ended": false,
+      "sessionID": "NEOS901B0F",
+      "userID": "bombitmanbomb",
+      "replyChannel": false,
+      "log": {
+        "module": "Game",
+        "session": "NEOS901B0F"
+      },
+      "int": {
+        "last": {
+          "reply": "",
+          "options": [],
+          "inventory": [],
+          "stats": [],
+          "vars": null,
+          "ignore": false
+        },
+        "newGame": true
+      },
+      "World": {
+        "log": {
+          "module": "WorldHandler",
+          "session": "NEOS901B0F"
+        },
+        "gen": {
+          "temp": {},
+          "log": {
+            "module": "WorldGen",
+            "session": "NEOS901B0F"
+          },
+          "seed": "8777381b482930ebfe7109385ba7cf568a99ee76fed5da268a99dd064148a0fac71ada377eb311b46bfdaf5fe741a1b49da129132cadef35605a5a22a63d4200",
+          "floor": 0,
+          "mapData": [
+            [
+              0,
+              0,
+              393216,
+              [
+                "Chest",
+                4,
+                2,
+                0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                3,
+                1
+              ]
+            ]
+          ]
+        },
+        "time": 0,
+        "map": [
+          [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ]
+        ],
+        "Room": {
+          "posX": [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ],
+          "flags": [
+            null
+          ]
+        }
+      },
+      "Player": {
+        "log": {
+          "module": "PlayerHandler",
+          "session": "NEOS901B0F"
+        },
+        "score": 0,
+        "posX": 0,
+        "posY": 0,
+        "stats": {
+          "level": 1,
+          "exp": 0,
+          "HPMax": 100,
+          "HP": 100,
+          "Str": 150,
+          "Con": 130,
+          "Def": 110,
+          "Atk": 130,
+          "Int": 70,
+          "Per": 60,
+          "Spd": 100,
+          "Dex": 100,
+          "Wis": 100
+        },
+        "floor": 0,
+        "bag": [],
+        "equipped": -1,
+        "skills": [],
+        "prof": {
+          "weapon": {
+            "Sword": 0,
+            "Bow": 0,
+            "Spear": 0,
+            "DSword": 0,
+            "Greatsword": 0,
+            "LongSword": 0,
+            "Mace": 0,
+            "type": {
+              "Blunt": 0,
+              "Blade": 0,
+              "Piercing": 0
+            }
+          },
+          "magic": {
+            "type": {}
+          }
+        }
+      }
+    },
+    {
+      "state": "setup",
+      "ended": false,
+      "sessionID": "NEOS8E9C6E",
+      "userID": "LucasRo7",
+      "replyChannel": false,
+      "log": {
+        "module": "Game",
+        "session": "NEOS8E9C6E"
+      },
+      "int": {
+        "last": {
+          "reply": "",
+          "options": [],
+          "inventory": [],
+          "stats": [],
+          "vars": null,
+          "ignore": false
+        },
+        "newGame": true
+      },
+      "World": {
+        "log": {
+          "module": "WorldHandler",
+          "session": "NEOS8E9C6E"
+        },
+        "gen": {
+          "temp": {},
+          "log": {
+            "module": "WorldGen",
+            "session": "NEOS8E9C6E"
+          },
+          "seed": "c76d16aacc708817f29c2975a4fb2da7ebeaa327dbd5719d88d253de12d51f541b9ae9ac1ce10054da9fa2ee244c7c32eaaf80a03739743ce8cdfd34a68e309c",
+          "floor": 0,
+          "mapData": [
+            [
+              0,
+              0,
+              393216,
+              [
+                "Chest",
+                4,
+                2,
+                0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                3,
+                1
+              ]
+            ]
+          ]
+        },
+        "time": 0,
+        "map": [
+          [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ]
+        ],
+        "Room": {
+          "posX": [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ],
+          "flags": [
+            null
+          ]
+        }
+      },
+      "Player": {
+        "log": {
+          "module": "PlayerHandler",
+          "session": "NEOS8E9C6E"
+        },
+        "score": 0,
+        "posX": 0,
+        "posY": 0,
+        "stats": {
+          "level": 1,
+          "exp": 0,
+          "HPMax": 100,
+          "HP": 100,
+          "Str": 150,
+          "Con": 130,
+          "Def": 110,
+          "Atk": 130,
+          "Int": 70,
+          "Per": 60,
+          "Spd": 100,
+          "Dex": 100,
+          "Wis": 100
+        },
+        "floor": 0,
+        "bag": [],
+        "equipped": -1,
+        "skills": [],
+        "prof": {
+          "weapon": {
+            "Sword": 0,
+            "Bow": 0,
+            "Spear": 0,
+            "DSword": 0,
+            "Greatsword": 0,
+            "LongSword": 0,
+            "Mace": 0,
+            "type": {
+              "Blunt": 0,
+              "Blade": 0,
+              "Piercing": 0
+            }
+          },
+          "magic": {
+            "type": {}
+          }
+        }
+      }
+    },
+    {
+      "state": "setup",
+      "ended": false,
+      "sessionID": "DISCORD-174609192340946944",
+      "userID": "174609192340946944",
+      "replyChannel": "720781713902665778",
+      "log": {
+        "module": "Game",
+        "session": "DISCORD-174609192340946944"
+      },
+      "int": {
+        "last": {
+          "reply": "",
+          "options": [],
+          "inventory": [],
+          "stats": [],
+          "vars": null,
+          "ignore": false
+        },
+        "newGame": true
+      },
+      "World": {
+        "log": {
+          "module": "WorldHandler",
+          "session": "DISCORD-174609192340946944"
+        },
+        "gen": {
+          "temp": {},
+          "log": {
+            "module": "WorldGen",
+            "session": "DISCORD-174609192340946944"
+          },
+          "seed": "91027a0f3cf29978469c0e740794f34ce4d65306ecd91f112eb0e19a5e5cab38264c66f4ccf703c9d6e319508d8a63f2eda8d2379f7a7ac59265aec5463b4583",
+          "floor": 0,
+          "mapData": [
+            [
+              0,
+              0,
+              393216,
+              [
+                "Chest",
+                4,
+                2,
+                0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                3,
+                1
+              ]
+            ]
+          ]
+        },
+        "time": 0,
+        "map": [
+          [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ]
+        ],
+        "Room": {
+          "posX": [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ],
+          "flags": [
+            null
+          ]
+        }
+      },
+      "Player": {
+        "log": {
+          "module": "PlayerHandler",
+          "session": "DISCORD-174609192340946944"
+        },
+        "name": "Bitman#0669",
+        "score": 0,
+        "posX": 0,
+        "posY": 0,
+        "stats": {
+          "level": 1,
+          "exp": 0,
+          "HPMax": 100,
+          "HP": 100,
+          "Str": 150,
+          "Con": 130,
+          "Def": 110,
+          "Atk": 130,
+          "Int": 70,
+          "Per": 60,
+          "Spd": 100,
+          "Dex": 100,
+          "Wis": 100
+        },
+        "floor": 0,
+        "bag": [],
+        "equipped": -1,
+        "skills": [],
+        "prof": {
+          "weapon": {
+            "Sword": 0,
+            "Bow": 0,
+            "Spear": 0,
+            "DSword": 0,
+            "Greatsword": 0,
+            "LongSword": 0,
+            "Mace": 0,
+            "type": {
+              "Blunt": 0,
+              "Blade": 0,
+              "Piercing": 0
+            }
+          },
+          "magic": {
+            "type": {}
+          }
+        }
+      }
+    },
+    {
+      "state": "setup",
+      "ended": false,
+      "sessionID": "WEBADEC58",
+      "userID": "100.18.28.237",
+      "replyChannel": false,
+      "log": {
+        "module": "Game",
+        "session": "WEBADEC58"
+      },
+      "int": {
+        "last": {
+          "reply": "",
+          "options": [],
+          "inventory": [],
+          "stats": [],
+          "vars": null,
+          "ignore": false
+        },
+        "newGame": true
+      },
+      "World": {
+        "log": {
+          "module": "WorldHandler",
+          "session": "WEBADEC58"
+        },
+        "gen": {
+          "temp": {},
+          "log": {
+            "module": "WorldGen",
+            "session": "WEBADEC58"
+          },
+          "seed": "9ffe969871116d35139ebd754a7ee7e5d6d75482af9f7d88449543ab7117eb957238d63341d922a45998ff3cd2a66d5926fb9b6fd2f8fe6b4b292ed518eb6063",
+          "floor": 0,
+          "mapData": [
+            [
+              0,
+              0,
+              393216,
+              [
+                "Chest",
+                4,
+                2,
+                0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                3,
+                1
+              ]
+            ]
+          ]
+        },
+        "time": 0,
+        "map": [
+          [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ]
+        ],
+        "Room": {
+          "posX": [
+            0,
+            0,
+            393216,
+            [
+              "Chest",
+              4,
+              2,
+              0,
+              1,
+              1,
+              1,
+              2,
+              1,
+              3,
+              1
+            ]
+          ],
+          "flags": [
+            null
+          ]
+        }
+      },
+      "Player": {
+        "log": {
+          "module": "PlayerHandler",
+          "session": "WEBADEC58"
+        },
+        "score": 0,
+        "posX": 0,
+        "posY": 0,
+        "stats": {
+          "level": 1,
+          "exp": 0,
+          "HPMax": 100,
+          "HP": 100,
+          "Str": 150,
+          "Con": 130,
+          "Def": 110,
+          "Atk": 130,
+          "Int": 70,
+          "Per": 60,
+          "Spd": 100,
+          "Dex": 100,
+          "Wis": 100
+        },
+        "floor": 0,
+        "bag": [],
+        "equipped": -1,
+        "skills": [],
+        "prof": {
+          "weapon": {
+            "Sword": 0,
+            "Bow": 0,
+            "Spear": 0,
+            "DSword": 0,
+            "Greatsword": 0,
+            "LongSword": 0,
+            "Mace": 0,
+            "type": {
+              "Blunt": 0,
+              "Blade": 0,
+              "Piercing": 0
+            }
+          },
+          "magic": {
+            "type": {}
+          }
+        }
+      }
+    }
+  ]
 }

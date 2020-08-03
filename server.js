@@ -48,7 +48,6 @@ const client = new Client({
 client.login(process.env.SECRET);
 const game = require("./game.js"); //Game Module
 
-
 process.stdin.resume();//so the program will not close instantly
 function exitHandler(options, exitCode) {
   console.log("KILL")
@@ -62,9 +61,6 @@ process.on('SIGINT', exitHandler.bind(null, {exit:true}));
 process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
 process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
 process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
-
-
-
 
 
 
@@ -248,7 +244,7 @@ app.get("/leaderboard", (request, res) => {
 		res.write("<p>No Scores Saved.</p>");
 	}
 	for (let i = 0; i < leaderboard.length; i++) {
-		res.write("<p>#" + (i + 1) + " " + leaderboard[i].Player.name + " | " + leaderboard[i].Player.score + "</p>");
+		res.write("<p>#" + (i + 1) + " " + leaderboard[i].Player.name + " | " + leaderboard[i].Player.score.toLocaleString() + "</p>");
 	}
 	res.write("<!--Sorry Everything is done server side :)-->");
 	res.end('</code></section><style>::-webkit-scrollbar {    width: 4px;}/* Track */::-webkit-scrollbar-track {    box-shadow: inset 0 0 5px grey;     border-radius: 1px;} /* Handle */::-webkit-scrollbar-thumb {    background: #33FF33;     border-radius: 1px;}/* Handle on hover */::-webkit-scrollbar-thumb:hover {    background: #33FF33; } a:link, a:visited {    color: #33FF33;  text-decoration: none;}  a:hover,a:hover:visited {    background-color: #33ff33;    color: #101010;    padding: 0px 0px;    text-align: center;    text-decoration: none;    display: inline-block;} section {        background: #101010;        color: #33FF33;        border-radius: 1em;        padding: 1em;        position: absolute;        top: 50%;        left: 50%;        margin-right: -50%;        transform: translate(-50%, -50%) }html{cursor:context-menu;  -webkit-touch-callout: none; /* iOS Safari */    -webkit-user-select: none; /* Safari */     -khtml-user-select: none; /* Konqueror HTML */       -moz-user-select: none; /* Firefox */        -ms-user-select: none; /* Internet Explorer/Edge */            user-select: none;}</style></body><script>document.body.style.zoom="150%"</script></html>');

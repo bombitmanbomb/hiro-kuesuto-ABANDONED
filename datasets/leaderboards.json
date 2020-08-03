@@ -1,3 +1,22 @@
 {
-  "leaderboard": []
+  "leaderboard": [
+    {
+      "Player": {
+        "name": "Ethan",
+        "score": 2356987623598
+      }
+    },
+    {
+      "Player": {
+        "name": "TestGuy",
+        "score": 5624724651
+      }
+    },
+    {
+      "Player": {
+        "name": "f",
+        "score": 3
+      }
+    }
+  ]
 }

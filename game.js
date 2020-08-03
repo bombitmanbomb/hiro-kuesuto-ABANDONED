@@ -547,7 +547,7 @@ function GlobalInterpreter(message,THIS){
       case 5:
         if (message.lowercase==="enter the tower") {
         //enter
-          reply.reply = "WIP"
+          reply.reply = THIS.Player.name +" the "+THIS.Player.class+" Begins their journey."
           reply.stats = []
           THIS.state = "play"
           //Run Starting Room Code
@@ -661,7 +661,7 @@ function makeButton(text, autoSEND, message) {
     return "<color=#00cc00>"+text+"</color>"
   }
 	if (!message.isWEB) {
-		return text
+		return "`"+text+"`"
 	}
 	return "<button " + classDat + "onclick='IC(this," + autoSEND + ");'>" + text + "</button>"
 }
